@@ -1,34 +1,38 @@
 using _Project.Code.Core.AssetManagement;
-using _Project.Code.Core.DiContainer;
 using _Project.Code.Core.Factory;
 using _Project.Code.Core.SceneManagement;
 using _Project.Code.Services.Input;
 using _Project.Code.Services.SaveLoad;
+using _Project.Code.Services.Wallet;
 using _Project.Code.Utils;
-using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
-public sealed class RootDiContainer : DiContainerBase
+namespace _Project.Code.Core.DiContainer
 {
-    protected override void AddDependencies(IContainerBuilder builder)
+    public sealed class RootDiContainer : DiContainerBase
     {
-        BindServices(builder);
-        builder.AddSingleton<ISceneLoader, SceneLoader>();
-        builder.AddSingleton<IAssetProvider, ResourcesAssetProvider>();
+        protected override void AddDependencies(IContainerBuilder builder)
+        {
+            BindServices(builder);
+            builder.AddSingleton<ISceneLoader, SceneLoader>();
+            builder.AddSingleton<IAssetProvider, ResourcesAssetProvider>();
 
-        builder.AddSingleton<ConfigProvider>();
-        builder.AddSingleton<StateFactory>();
-    }
+            builder.AddSingleton<ConfigProvider>();
+            builder.AddSingleton<StateFactory>();
+        }
 
-    private static void BindServices(IContainerBuilder builder)
-    {
-        builder.RegisterEntryPoint<InputService>();
-        builder.AddSingleton<ISaveLoadService, JsonSaveLoadService>();
+        private void BindServices(IContainerBuilder builder)
+        {
+            builder.RegisterEntryPoint<InputService>();
+        
+            builder.AddSingleton<WalletService>();
+            builder.AddSingleton<ISaveLoadService, JsonSaveLoadService>();
 
-        // if(Application.isMobilePlatform)
+            // if(Application.isMobilePlatform)
             // builder.AddSingleton<IInputService, MobileInputService>();
-        // else
+            // else
             // builder.AddSingleton<IInputService, InputService>();
+        }
     }
 }
