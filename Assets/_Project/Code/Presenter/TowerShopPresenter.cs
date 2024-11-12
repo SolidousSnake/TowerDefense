@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using _Project.Code.Config;
 using _Project.Code.Services.TowerPlacement;
 using _Project.Code.Services.Wallet;
@@ -12,27 +11,30 @@ namespace _Project.Code.Presenter
     {
         [Inject] private readonly TowerShopView _view;
         [Inject] private readonly WalletService _walletService;
-        private TowerPlacementService _placementService;
-
-        public void Initialize(IEnumerable<TowerConfig> towers, TowerPlacementService service)
+        [Inject] private readonly TowerPlacementService _placementService;
+        
+        public void Initialize()
         {
-            _placementService = service;
-            _view.Initialize(towers);
+            _view.Initialize(this);
             _view.PurchaseButtonPressed += Buy;
         }
 
         private void Buy(TowerConfig config)
         {
-            _placementService.StartPlacement(config);
             if (_walletService.GameplayCoins.Value >= config.Price)
             {
-                
+                _placementService.StartPlacement(config.Prefab);
             }
         }
 
         public void Show() => _view.Show();
-        public void Hide() => _view.Hide();
-        
+
+        public void Hide()
+        {
+            _view.Hide();
+            _placementService.StopPlacement();
+        }
+
         public void Dispose() => _view.PurchaseButtonPressed -= Buy;
     }
 }

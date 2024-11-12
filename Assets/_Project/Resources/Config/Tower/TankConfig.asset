@@ -15,5 +15,5 @@ MonoBehaviour:
   <Name>k__BackingField: Tank
   <Price>k__BackingField: 200
   <TowerIcon>k__BackingField: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
-  <Prefab>k__BackingField: {fileID: 8599835599977534507, guid: 03992f2b17b478a4c8d53a8cb95a1e71, type: 3}
+  <Prefab>k__BackingField: {fileID: -5393606366550864761, guid: 03992f2b17b478a4c8d53a8cb95a1e71, type: 3}
   <Size>k__BackingField: {x: 1, y: 2}

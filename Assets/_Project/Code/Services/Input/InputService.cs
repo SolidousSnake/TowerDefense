@@ -7,7 +7,8 @@ namespace _Project.Code.Services.Input
 {
     public class InputService : IInputService, ITickable
     {
-        public event Action OnClicked;
+        public event Action OnFire1;
+        public event Action OnFire2;
         public event Action OnExit;
         
         public bool IsPointerOverUI() => EventSystem.current.IsPointerOverGameObject();
@@ -16,10 +17,13 @@ namespace _Project.Code.Services.Input
         public void Tick() 
         {
             if(UnityEngine.Input.GetMouseButtonDown(0))
-                OnClicked?.Invoke();
+                OnFire1?.Invoke();
             
-            // if(UnityEngine.Input.GetKeyDown(KeyCode.Escape))
-                // OnExit?.Invoke();
+            if(UnityEngine.Input.GetMouseButtonDown(1))
+                OnFire2?.Invoke();
+            
+            if(UnityEngine.Input.GetKeyDown(KeyCode.Escape))
+                OnExit?.Invoke();
         }
     }
 }

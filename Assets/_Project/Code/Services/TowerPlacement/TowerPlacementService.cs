@@ -1,11 +1,6 @@
-﻿using System.Collections.Generic;
-using _Project.Code.Config;
-using _Project.Code.Core.AssetManagement;
-using _Project.Code.Gameplay.Repository;
-using _Project.Code.Services.Input;
-using _Project.Code.UI.Indicator;
+﻿using _Project.Code.Gameplay.Repository;
+using _Project.Code.Gameplay.Tower;
 using _Project.Code.UI.View;
-using _Project.Code.Utils;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -14,120 +9,80 @@ namespace _Project.Code.Services.TowerPlacement
 {
     public class TowerPlacementService : ITickable
     {
-        private readonly List<TowerConfig> _towers;
-        private readonly List<GameObject> _placedTowers;
-        
-        [Inject] private readonly IInputService _inputService;
-        [Inject] private readonly Camera _sceneCamera;
-        [Inject] private readonly Grid _grid;
-        [Inject] private readonly GridView _gridView;
+        [Inject] private TowerPlacementView _view;
 
-        private readonly LevelConfig _levelConfig;
-        private readonly CursorIndicator _cellIndicator;
-        private readonly Renderer _previewRenderer;
+        private BuildingRepository _buildingRepository;
+        private Building _previewBuilding;
+        private LayerMask _placementLayer;
 
-        private readonly GridRepository _placementRepository;
-
-        private Vector3 _lastPosition;
-        private int _selectedTowerIndex;
-
-        public TowerPlacementService(IAssetProvider assetProvider, ConfigProvider configProvider)
+        public void Initialize(LayerMask layer)
         {
-            _cellIndicator = Object.Instantiate(assetProvider.Load<CursorIndicator>(AssetPath.Prefab.CursorIndicator));
-            _levelConfig = configProvider.GetSingleImmediately<LevelConfig>(AssetPath.Config.LevelConfig);
-            _towers = _levelConfig.TowersList;
-            _placedTowers = new List<GameObject>();
+            _buildingRepository = new BuildingRepository();
+            _placementLayer = layer;
+            _view.Initialize(this);
+        }
 
-            _selectedTowerIndex = -1;
+        public void StartPlacement(Building prefab)
+        {
+            if (_previewBuilding is not null)
+                StopPlacement();
 
-            _placementRepository = new GridRepository();
-            _previewRenderer = _cellIndicator.GetComponentInChildren<Renderer>();
+            _previewBuilding = Object.Instantiate(prefab);
+        }
+
+        public void StopPlacement()
+        {
+            if (_previewBuilding is not null)
+            {
+                Object.Destroy(_previewBuilding.gameObject);
+                _previewBuilding = null;
+            }
+        }
+
+        public void RotatePreviewBuilding() => _previewBuilding?.Rotate();
+
+        public void PlaceBuilding()
+        {
+            if (_previewBuilding == null)
+                return;
+
+            var position = _previewBuilding.transform.position;
+            var gridPosition = new Vector2Int(
+                Mathf.RoundToInt(position.x),
+                Mathf.RoundToInt(position.z)
+            );
+
+            if (_buildingRepository.IsPositionFree(_previewBuilding, gridPosition))
+            {
+                _buildingRepository.Add(_previewBuilding, gridPosition);
+                _previewBuilding.ResetColor();
+                _previewBuilding = null;
+                Debug.Log($"X: {position.x}; Z: {position.y}");
+            }
         }
 
         public void Tick()
         {
-            if (_selectedTowerIndex < 0)
+            if (_previewBuilding is null)
                 return;
 
-            Vector3 mousePosition = GetPlacementPosition();
-            Vector3Int gridPosition = _grid.WorldToCell(mousePosition);
+            var ray = Camera.main.ScreenPointToRay(UnityEngine.Input.mousePosition);
 
-            bool canPlace = CanPlace(gridPosition, _selectedTowerIndex);
-            _previewRenderer.material.color = canPlace ? Color.cyan : Color.red;
+            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, _placementLayer))
+            {
+                var worldPosition = hit.point;
+                var position = new Vector2Int(
+                    Mathf.RoundToInt(worldPosition.x),
+                    Mathf.RoundToInt(worldPosition.z)
+                );
+                bool canPlace = _buildingRepository.IsPositionFree(_previewBuilding, position);
 
-            _cellIndicator.transform.position = _grid.CellToWorld(gridPosition);
-        }
+                if (_previewBuilding.transform.position == Vector3.zero)
+                    _previewBuilding.transform.position = new Vector3(position.x, -10f, position.y);
 
-        public void StartPlacement(TowerConfig config)
-        {
-            _selectedTowerIndex = _towers.IndexOf(config);
-
-            _gridView.Show();
-            _cellIndicator.Show();
-            _inputService.OnClicked += PlaceTower;
-            _inputService.OnExit += StopPlacement;
-        }
-
-        private void StopPlacement()
-        {
-            _selectedTowerIndex = -1;
-
-            _gridView.Hide();
-            _cellIndicator.Hide();
-            _inputService.OnClicked -= PlaceTower;
-            _inputService.OnExit -= StopPlacement;
-        }
-
-        private void PlaceTower()
-        {
-            if (_inputService.IsPointerOverUI())
-                return;
-
-            Vector3 mousePosition = GetPlacementPosition();
-            Vector3Int gridPosition = _grid.WorldToCell(mousePosition);
-
-            bool canPlace = CanPlace(gridPosition, _selectedTowerIndex);
-
-            if (canPlace == false)
-                return;
-
-            var tower = Object.Instantiate(_towers[_selectedTowerIndex].Prefab);
-            tower.transform.position = _grid.CellToWorld(gridPosition);
-            _placedTowers.Add(tower);
-            _placementRepository.Add(gridPosition
-                , _levelConfig.TowersList[_selectedTowerIndex].Size
-                , tower
-                , _placedTowers.Count - 1);
-        }
-
-        public void RemoveTowerAt(Vector3Int gridPosition)
-        {
-            int towerIndex = _placementRepository.GetObjectIndex(gridPosition);
-            
-            if (towerIndex == -1)
-                return;
-
-            GameObject towerToRemove = _placedTowers[towerIndex];
-            
-            _placedTowers.RemoveAt(towerIndex);
-            Object.Destroy(towerToRemove);
-
-            _placementRepository.Remove(gridPosition);
-        }
-        
-        private bool CanPlace(Vector3Int gridPosition, int selectedTowerIndex) => 
-            _placementRepository.CanPlace(gridPosition, _levelConfig.TowersList[selectedTowerIndex].Size);
-
-        private Vector3 GetPlacementPosition()
-        {
-            Vector3 selectedPosition = _inputService.GetSelectedPosition();
-            selectedPosition.z = _sceneCamera.nearClipPlane;
-            Ray ray = _sceneCamera.ScreenPointToRay(selectedPosition);
-
-            if (Physics.Raycast(ray, out RaycastHit hit, 100, _levelConfig.PlacementLayer))
-                _lastPosition = hit.point;
-
-            return _lastPosition;
+                _previewBuilding.transform.position = new Vector3(position.x, 0f, position.y);
+                _previewBuilding.SetTransparent(canPlace);
+            }
         }
     }
 }

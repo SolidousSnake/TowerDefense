@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using _Project.Code.Core.AssetManagement;
 using _Project.Code.Config;
+using _Project.Code.Presenter;
 using _Project.Code.Services.Wallet;
 using _Project.Code.Utils;
 using UnityEngine.UI;
@@ -26,14 +27,14 @@ namespace _Project.Code.UI.View
         
         public event Action<TowerConfig> PurchaseButtonPressed;
 
-        public void Initialize(IEnumerable<TowerConfig> towerConfig)
+        public void Initialize(TowerShopPresenter presenter)
         {
-            _closeButton.OnClickAsObservable().Subscribe(_ => Hide()).AddTo(_cd);
+            _closeButton.OnClickAsObservable().Subscribe(_ => presenter.Hide()).AddTo(_cd);
             
             var shopItem = _assetProvider.Load<TowerShopItem>(AssetPath.Prefab.TowerShopItem);
             var shopColor = _configProvider.GetSingle<TowerShopColors>();
 
-            foreach (var config in towerConfig)
+            foreach (var config in _configProvider.GetSingle<LevelConfig>().TowersList)
             {
                 var item = Instantiate(shopItem, _parentContent);
                 item.Initialize(shopColor, config, _walletService);

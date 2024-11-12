@@ -11,24 +11,21 @@ namespace _Project.Code.Core.DiContainer
 {
     public sealed class SceneDiContainer : DiContainerBase
     {
-        [SerializeField] private Grid _grid;
-        [SerializeField] private GridView _gridView;
         [SerializeField] private TowerShopView _towerShopView;
-        [SerializeField] private TowerSellView _towerSellView;
-        
+        [SerializeField] private TowerPlacementView _towerPlacementView;
+        [SerializeField] private TowerOperationView _towerOperationView;
+
         protected override void AddDependencies(IContainerBuilder builder)
         {
-            builder.RegisterInstance(_towerShopView);
-            builder.RegisterInstance(_towerSellView);
-            
-            builder.AddSingleton<TowerShopPresenter>();
             builder.RegisterEntryPoint<GameplaySceneBootstrapper>();
             
-            builder.RegisterEntryPoint<TowerPlacementService>()
-                .WithParameter(Camera.main)
-                .WithParameter(_gridView)
-                .WithParameter(_grid)
-                .AsSelf();
+            builder.RegisterInstance(_towerShopView);
+            builder.RegisterInstance(_towerOperationView);
+            builder.RegisterInstance(_towerPlacementView);
+
+            builder.AddSingleton<TowerShopPresenter>();
+
+            builder.RegisterEntryPoint<TowerPlacementService>().AsSelf();
         }
     }
 }

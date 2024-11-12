@@ -16,6 +16,9 @@ MonoBehaviour:
   <PlacementLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 128
+  <GridSize>k__BackingField: {x: 10, y: 10}
   <TowersList>k__BackingField:
+  - {fileID: 11400000, guid: cfaeb3f4a0959e44787f71b29b967ecc, type: 2}
   - {fileID: 11400000, guid: bb1a9c52f04fda840a084a301f14c21d, type: 2}
   - {fileID: 11400000, guid: b53ed24af33d97349877694c5a05cc48, type: 2}
+  <Waves>k__BackingField: []

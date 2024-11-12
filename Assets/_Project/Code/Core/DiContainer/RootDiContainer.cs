@@ -24,11 +24,11 @@ namespace _Project.Code.Core.DiContainer
 
         private void BindServices(IContainerBuilder builder)
         {
-            builder.RegisterEntryPoint<InputService>();
-        
             builder.AddSingleton<WalletService>();
             builder.AddSingleton<ISaveLoadService, JsonSaveLoadService>();
 
+            builder.RegisterEntryPoint<InputService>();
+            
             // if(Application.isMobilePlatform)
             // builder.AddSingleton<IInputService, MobileInputService>();
             // else

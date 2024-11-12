@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1337653150084771938}
+  - component: {fileID: -5393606366550864761}
   m_Layer: 0
   m_Name: Tank Pivot
   m_TagString: Untagged
@@ -32,6 +33,22 @@ Transform:
   - {fileID: 2340704874223421376}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-5393606366550864761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8599835599977534507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b24a50dac6094e4cba49c74f368990e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _model: {fileID: 0}
+  _modelRotations: []
+  _mainRenderer: {fileID: 2316902604970547358}
+  _originalSize: {x: 5, y: 11}
 --- !u!1001 &2338601392315346692
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -46,11 +63,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4413028164077926, guid: ea0d444837ec0b8459330243396f4c95, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.92
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4427995656513732, guid: ea0d444837ec0b8459330243396f4c95, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.87
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4427995656513732, guid: ea0d444837ec0b8459330243396f4c95, type: 3}
       propertyPath: m_LocalPosition.y
@@ -58,7 +75,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4427995656513732, guid: ea0d444837ec0b8459330243396f4c95, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 4.07
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4427995656513732, guid: ea0d444837ec0b8459330243396f4c95, type: 3}
       propertyPath: m_LocalRotation.w
@@ -93,6 +110,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ea0d444837ec0b8459330243396f4c95, type: 3}
+--- !u!23 &2316902604970547358 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 23409940978923418, guid: ea0d444837ec0b8459330243396f4c95, type: 3}
+  m_PrefabInstance: {fileID: 2338601392315346692}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2340704874223421376 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4427995656513732, guid: ea0d444837ec0b8459330243396f4c95, type: 3}

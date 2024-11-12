@@ -14,7 +14,6 @@
         public static class Prefab
         {
             private const string MainFolder = "Prefab/";
-            public const string CursorIndicator = MainFolder + "CoursorindicatorParent";
             public const string TowerShopItem = MainFolder + "UI/Tower Shop Item Button";
         }
     }
