@@ -27,12 +27,15 @@ namespace _Project.Code.Presenter
             }
         }
 
-        public void Show() => _view.Show();
+        public void Show()
+        {
+            _view.Open();
+        }
 
         public void Hide()
         {
-            _view.Hide();
             _placementService.StopPlacement();
+            _view.Close();
         }
 
         public void Dispose() => _view.PurchaseButtonPressed -= Buy;

@@ -6,7 +6,7 @@ using VContainer;
 
 namespace _Project.Code.UI.View
 {
-    public class WalletView : BaseUI
+    public class WalletView : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI _label;
         [SerializeField] private string _format = "$";

@@ -2,10 +2,11 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UniRx;
+using _Project.Code.Utils;
 
 namespace _Project.Code.UI.View
 {
-    public class TowerOperationView : BaseUI
+    public class TowerOperationView : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI _towerNameLabel;
         [SerializeField] private TextMeshProUGUI _upgradeCostLabel;
@@ -19,12 +20,11 @@ namespace _Project.Code.UI.View
         {
             _upgradeButton.OnClickAsObservable().Subscribe(_ => Upgrade()).AddTo(this);
             _removeButton.OnClickAsObservable().Subscribe(_ => Remove()).AddTo(this);
-            _cancelButton.OnClickAsObservable().Subscribe(_ => Hide()).AddTo(this);
+            _cancelButton.OnClickAsObservable().Subscribe(_ => this.Hide()).AddTo(this);
         }
 
         public void Show(string name, string upgradeCost, string sellReward)
         {
-            base.Show();
             _towerNameLabel.name = name;
             _upgradeCostLabel.text = upgradeCost + _format;
             _sellRewardLabel.text = sellReward + _format;
@@ -35,12 +35,12 @@ namespace _Project.Code.UI.View
 
         private void Upgrade()
         {
-            Hide();
+            this.Hide();
         }
 
         private void Remove()
         {
-            Hide();
+            this.Hide();
         }
     }
 }

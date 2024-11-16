@@ -20,6 +20,7 @@ namespace _Project.Code.Services.TowerPlacement
             _buildingRepository = new BuildingRepository();
             _placementLayer = layer;
             _view.Initialize(this);
+            _view.Close();
         }
 
         public void StartPlacement(Building prefab)
@@ -28,22 +29,24 @@ namespace _Project.Code.Services.TowerPlacement
                 StopPlacement();
 
             _previewBuilding = Object.Instantiate(prefab);
+            _view.Open();
         }
 
         public void StopPlacement()
         {
-            if (_previewBuilding is not null)
-            {
-                Object.Destroy(_previewBuilding.gameObject);
-                _previewBuilding = null;
-            }
+            if (_previewBuilding is null)
+                return;
+            
+            Object.Destroy(_previewBuilding.gameObject);
+            _previewBuilding = null;
+            _view.Close();
         }
 
         public void RotatePreviewBuilding() => _previewBuilding?.Rotate();
 
         public void PlaceBuilding()
         {
-            if (_previewBuilding == null)
+            if (_previewBuilding is null)
                 return;
 
             var position = _previewBuilding.transform.position;

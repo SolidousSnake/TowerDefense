@@ -1,13 +1,14 @@
-﻿using System;
-using _Project.Code.Services.TowerPlacement;
+﻿using _Project.Code.Services.TowerPlacement;
+using Alchemy.Inspector;
 using UnityEngine;
 using UnityEngine.UI;
 using UniRx;
 
 namespace _Project.Code.UI.View
 {
-    public class TowerPlacementView : BaseUI
+    public class TowerPlacementView : MoveableUI
     {
+        [Title("Common")]
         [SerializeField] private Button _placeButton;
         [SerializeField] private Button _rotateButton;
         [SerializeField] private Button _cancelButton;
@@ -25,11 +26,13 @@ namespace _Project.Code.UI.View
         private void PlaceBuilding()
         {
             _placementService.PlaceBuilding();
+            Close();
         }
 
         private void StopPlacement()
         {
             _placementService.StopPlacement();
+            Close();
         }
     }
 }

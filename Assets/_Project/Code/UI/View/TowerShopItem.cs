@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace _Project.Code.UI.View
 {
-    public class TowerShopItem : BaseUI
+    public class TowerShopItem : MonoBehaviour
     {
         [SerializeField] private Button _purchaseButton;
         [SerializeField] private Image _towerIcon;

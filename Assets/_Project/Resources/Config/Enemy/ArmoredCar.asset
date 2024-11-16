@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39ae689e3d684e9895612895bb3ee566, type: 3}
+  m_Name: ArmoredCar
+  m_EditorClassIdentifier: 
+  <MaxHealth>k__BackingField: 10
+  <MovementSpeed>k__BackingField: 15
+  <KillReward>k__BackingField: 10
+  <Prefab>k__BackingField: {fileID: 8054775913530895127, guid: b55d8e10137390046b676251cfa33ba8, type: 3}

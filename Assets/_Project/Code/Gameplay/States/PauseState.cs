@@ -1,7 +1,42 @@
-﻿namespace _Project.Code.Gameplay.States
+﻿using System;
+using _Project.Code.Core.Fsm;
+using _Project.Code.Gameplay.Spawner;
+using _Project.Code.UI.View.State;
+using _Project.Code.Utils;
+using UnityEngine;
+using VContainer;
+
+namespace _Project.Code.Gameplay.States
 {
-    public class PauseState
+    public class PauseState : IState
     {
+        [Inject] private readonly GameplayStateMachine _fsm;
+        [Inject] private readonly EnemySpawner _enemySpawner;
+        [Inject] private readonly PauseStateView _view;
         
+        public async void Enter()
+        {
+            Time.timeScale = Constants.Time.PausedValue;
+            _enemySpawner.Pause();
+
+            var result = await _view.Open();
+
+            switch (result)
+            {
+                case TargetStates.Resume:
+                    _fsm.Enter<PlayingState>();
+                    break;
+                case TargetStates.Restart:
+                    _fsm.Enter<RestartState>();
+                    break;
+                case TargetStates.LoadMenu:
+                    _fsm.Enter<LoadMenuState>();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        public void Exit() => _view.Hide();
     }
 }

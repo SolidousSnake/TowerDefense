@@ -5,15 +5,18 @@ using _Project.Code.Config;
 using _Project.Code.Presenter;
 using _Project.Code.Services.Wallet;
 using _Project.Code.Utils;
-using UnityEngine.UI;
+using Alchemy.Inspector;
 using UnityEngine;
 using VContainer;
 using UniRx;
+using UnityEngine.UI;
 
 namespace _Project.Code.UI.View
 {
-    public class TowerShopView : BaseUI
+    public class TowerShopView : MoveableUI
     {
+        [Title("Common")]
+        [SerializeField] private Button _openButton;
         [SerializeField] private Button _closeButton;
         [SerializeField] private Transform _parentContent;
 
@@ -22,15 +25,16 @@ namespace _Project.Code.UI.View
         [Inject] private WalletService _walletService;
 
         private readonly List<TowerShopItem> _shopItems = new();
-
         private readonly CompositeDisposable _cd = new();
-        
+
         public event Action<TowerConfig> PurchaseButtonPressed;
 
         public void Initialize(TowerShopPresenter presenter)
         {
+            Close();
+            _openButton.OnClickAsObservable().Subscribe(_ => presenter.Show()).AddTo(_cd);
             _closeButton.OnClickAsObservable().Subscribe(_ => presenter.Hide()).AddTo(_cd);
-            
+
             var shopItem = _assetProvider.Load<TowerShopItem>(AssetPath.Prefab.TowerShopItem);
             var shopColor = _configProvider.GetSingle<TowerShopColors>();
 
@@ -39,21 +43,35 @@ namespace _Project.Code.UI.View
                 var item = Instantiate(shopItem, _parentContent);
                 item.Initialize(shopColor, config, _walletService);
                 _shopItems.Add(item);
-                
-                item.PurchaseButtonPressed += Invoke;
+
+                item.PurchaseButtonPressed += Purchased;
             }
         }
 
-        private void Invoke(TowerConfig config)
+        public override void Open()
         {
+            base.Open();
+            _openButton.Hide();
+        }
+
+        public override void Close()
+        {
+            base.Close();
+            _openButton.Show();
+        }
+
+
+        private void Purchased(TowerConfig config)
+        {
+            Close();
             PurchaseButtonPressed?.Invoke(config);
         }
 
         private void OnDestroy()
         {
             _cd.Dispose();
-            
-            foreach (var item in _shopItems) 
+
+            foreach (var item in _shopItems)
                 item.PurchaseButtonPressed -= PurchaseButtonPressed;
         }
     }
