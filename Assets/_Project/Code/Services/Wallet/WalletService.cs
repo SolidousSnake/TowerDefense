@@ -35,6 +35,8 @@ namespace _Project.Code.Services.Wallet
             _gameplayCoins.Value += amount;
         }
 
+        public void ResetGameplayCoins() => _gameplayCoins.Value = 0;
+        
         public void AddMenuCoins(int amount)
         {
             if (amount <= 0)

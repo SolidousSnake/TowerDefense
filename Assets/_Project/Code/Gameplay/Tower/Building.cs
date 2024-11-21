@@ -6,15 +6,12 @@ namespace _Project.Code.Gameplay.Tower
     {
         [SerializeField] private GameObject _model;
         [SerializeField] private Vector3[] _modelRotations;
-        [Space(20f)]
         [SerializeField] private Renderer _mainRenderer;
         [SerializeField] private Vector2Int _originalSize;
 
-        private int _rotationState = 0; 
+        private int _rotationState = 0;
 
         public Vector2Int Size { get; private set; }
-
-        private void Awake() => Size = _originalSize;
 
         public void SetTransparent(bool canPlace) => _mainRenderer.material.color = canPlace ? Color.green : Color.red;
 

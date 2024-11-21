@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c05a34ce6a0f427f934f128761d062cd, type: 3}
+  m_Name: Tank
+  m_EditorClassIdentifier: 
+  <OneShotClip>k__BackingField:
+  - {fileID: 8300000, guid: 43623e6f085c0df43ae03bc9fe5843db, type: 3}
+  - {fileID: 8300000, guid: dbf7f6578c1fff24d8706164a5306403, type: 3}
+  - {fileID: 8300000, guid: cbe1333a90166d740a572a2de7aab576, type: 3}
+  - {fileID: 8300000, guid: e7d10f3104774994bb8b52b751d6f6ac, type: 3}
+  <FireClip>k__BackingField: []
+  <FireTailClip>k__BackingField:
+  - {fileID: 8300000, guid: 8e47bf04277c5304a9fedc526d9ff3f1, type: 3}
+  - {fileID: 8300000, guid: ff5650495d5e4854e9ffb900b0db609d, type: 3}
+  - {fileID: 8300000, guid: f12d6e4bb63419645937a54251adabdf, type: 3}
+  - {fileID: 8300000, guid: 1e63fce243f323141aca6715389ae5db, type: 3}
+  - {fileID: 8300000, guid: 48aa46a5f60626644bbd001ba2d4b753, type: 3}

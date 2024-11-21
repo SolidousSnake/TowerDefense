@@ -23,7 +23,7 @@ namespace _Project.Code.Presenter
         {
             if (_walletService.GameplayCoins.Value >= config.Price)
             {
-                _placementService.StartPlacement(config.Prefab);
+                _placementService.StartPlacement(config);
             }
         }
 

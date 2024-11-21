@@ -5,6 +5,7 @@ using _Project.Code.Gameplay.Point;
 using _Project.Code.Gameplay.Spawner;
 using _Project.Code.Presenter;
 using _Project.Code.Services.TowerPlacement;
+using _Project.Code.UI.Label;
 using _Project.Code.UI.View;
 using _Project.Code.UI.View.State;
 using _Project.Code.Utils;
@@ -17,9 +18,12 @@ namespace _Project.Code.Core.DiContainer
 {
     public sealed class SceneDiContainer : DiContainerBase
     {
-        [SerializeField] private SpawnPoint _spawnPoint;
-        [SerializeField] private WayPoint[] _wayPoints;
+        [BoxGroup("Points")] [SerializeField] private SpawnPoint _spawnPoint;
+        [BoxGroup("Points")] [SerializeField] private WayPoint[] _wayPoints;
 
+        [BoxGroup("UI")] [SerializeField] private HealthLabel _healthLabel;
+        [BoxGroup("UI")] [SerializeField] private WaveLabel _waveLabel;
+        
         [BoxGroup("UI")] [SerializeField] private PauseStateView _pauseStateView;
         [BoxGroup("UI")] [SerializeField] private TowerShopView _towerShopView;
         [BoxGroup("UI")] [SerializeField] private TowerPlacementView _towerPlacementView;
@@ -32,6 +36,9 @@ namespace _Project.Code.Core.DiContainer
             builder.AddSingleton<GameplayStateMachine>();
             builder.AddSingleton<StateFactory>();
 
+            builder.RegisterInstance(_healthLabel);
+            builder.RegisterInstance(_waveLabel);
+            
             builder.RegisterInstance(_pauseStateView);
             builder.RegisterInstance(_towerShopView);
             builder.RegisterInstance(_towerOperationView);

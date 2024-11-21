@@ -1,4 +1,5 @@
-﻿using _Project.Code.Gameplay.Repository;
+﻿using _Project.Code.Config;
+using _Project.Code.Gameplay.Repository;
 using _Project.Code.Gameplay.Tower;
 using _Project.Code.UI.View;
 using UnityEngine;
@@ -15,6 +16,8 @@ namespace _Project.Code.Services.TowerPlacement
         private Building _previewBuilding;
         private LayerMask _placementLayer;
 
+        private TowerConfig _currentConfig;
+
         public void Initialize(LayerMask layer)
         {
             _buildingRepository = new BuildingRepository();
@@ -23,12 +26,13 @@ namespace _Project.Code.Services.TowerPlacement
             _view.Close();
         }
 
-        public void StartPlacement(Building prefab)
+        public void StartPlacement(TowerConfig config)
         {
             if (_previewBuilding is not null)
                 StopPlacement();
 
-            _previewBuilding = Object.Instantiate(prefab);
+            _currentConfig = config;
+            _previewBuilding = Object.Instantiate(config.Prefab);
             _view.Open();
         }
 
@@ -59,8 +63,10 @@ namespace _Project.Code.Services.TowerPlacement
             {
                 _buildingRepository.Add(_previewBuilding, gridPosition);
                 _previewBuilding.ResetColor();
+                _previewBuilding.GetComponent<TowerFacade>().Initialize(_currentConfig);
+                
                 _previewBuilding = null;
-                Debug.Log($"X: {position.x}; Z: {position.y}");
+                // Debug.Log($"X: {position.x}; Z: {position.y}");
             }
         }
 

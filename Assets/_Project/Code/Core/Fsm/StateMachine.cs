@@ -41,7 +41,7 @@ namespace _Project.Code.Core.Fsm
         private void ChangeState(Type stateType)
         {
             _activeState?.Exit();
-
+            
             IState newState = _registeredStates[stateType];
             _activeState = newState;
             _activeState.Enter();

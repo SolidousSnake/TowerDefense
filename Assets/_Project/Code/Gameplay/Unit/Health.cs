@@ -13,13 +13,12 @@ namespace _Project.Code.Gameplay.Unit
             Points = _points.ToReadOnlyReactiveProperty();
         }
 
-        public  IReadOnlyReactiveProperty<float> Points { get; }
+        public IReadOnlyReactiveProperty<float> Points { get; }
 
         public void ApplyDamage(float damage)
         {
             if (damage < 0)
                 throw new Exception($"Damage must be positive. Received: {damage}");
-
             _points.Value -= damage;
         }
     }

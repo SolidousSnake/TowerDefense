@@ -1,4 +1,5 @@
 ﻿using _Project.Code.Core.Fsm;
+using UnityEngine;
 
 namespace _Project.Code.Gameplay.States
 {
@@ -6,12 +7,11 @@ namespace _Project.Code.Gameplay.States
     {
         public void Enter()
         {
-            throw new System.NotImplementedException();
+            Debug.Log("Fail");
         }
 
         public void Exit()
         {
-            throw new System.NotImplementedException();
         }
     }
 }

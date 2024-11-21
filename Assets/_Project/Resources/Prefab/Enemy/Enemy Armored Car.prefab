@@ -10,7 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6377652494403358037}
   - component: {fileID: 8054775913530895127}
-  m_Layer: 0
+  - component: {fileID: 4315280606464642088}
+  m_Layer: 8
   m_Name: Enemy Armored Car
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48,8 +49,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _originalPrefab: {fileID: 44679181026098822}
   _destroyedPrefab: {fileID: 5781340072201509976}
-  _deathTime: 5
+  _deathTime: 1
   _rotationSpeed: 25
+--- !u!65 &4315280606464642088
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8271736290502047669}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.4, y: 2, z: 4.7}
+  m_Center: {x: 0, y: 2, z: 0}
 --- !u!1001 &42928794781264090
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -114,10 +136,7 @@ PrefabInstance:
     - {fileID: 64246411881910006, guid: a573adead8251f34a9e4b43dde088f46, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1751490120701532, guid: a573adead8251f34a9e4b43dde088f46, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1634437972209079001}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a573adead8251f34a9e4b43dde088f46, type: 3}
 --- !u!4 &38706041583195930 stripped
 Transform:
@@ -129,27 +148,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1751490120701532, guid: a573adead8251f34a9e4b43dde088f46, type: 3}
   m_PrefabInstance: {fileID: 42928794781264090}
   m_PrefabAsset: {fileID: 0}
---- !u!65 &1634437972209079001
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 44679181026098822}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 2.401886, y: 2.078208, z: 4.75737}
-  m_Center: {x: 0, y: 1.3899083, z: -0.011856079}
 --- !u!1001 &5781946086518787514
 PrefabInstance:
   m_ObjectHideFlags: 0

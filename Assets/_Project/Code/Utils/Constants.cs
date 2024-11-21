@@ -3,6 +3,7 @@
     public static class Constants
     {
         public const string PlayerProgress = "/playerProgress.data";
+        public const int DefaultCapacity = 32;
         
         public static class Time
         {

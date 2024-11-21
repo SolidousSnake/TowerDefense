@@ -57,6 +57,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1337653150084771938}
     m_Modifications:
+    - target: {fileID: 1773835230168722, guid: ea0d444837ec0b8459330243396f4c95, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1968699171223400, guid: ea0d444837ec0b8459330243396f4c95, type: 3}
       propertyPath: m_Name
       value: SM_Veh_Tank_USA_01

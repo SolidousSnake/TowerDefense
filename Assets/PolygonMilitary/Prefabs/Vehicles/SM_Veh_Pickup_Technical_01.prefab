@@ -366,7 +366,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4509317788559938}
-  - {fileID: 4606737896936634}
+  - {fileID: 7926153091356833871}
   - {fileID: 4070258020213798}
   - {fileID: 4102002253376744}
   - {fileID: 4865115781944174}
@@ -972,13 +972,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1915218317131776}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.03394408, y: 1.9703568, z: -1.3530357}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.01605592, y: -0.16364324, z: -0.0010356903}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4943535086057574}
-  m_Father: {fileID: 4573876372250196}
+  m_Father: {fileID: 7926153091356833871}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &33172235895894458
 MeshFilter:
@@ -1030,3 +1030,35 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &7240326927581187965
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7926153091356833871}
+  m_Layer: 0
+  m_Name: Gun Pivot
+  m_TagString: Untagged
+  m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7926153091356833871
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7240326927581187965}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0.040989317, z: -0, w: 0.9991596}
+  m_LocalPosition: {x: -0.05, y: 2.134, z: -1.352}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 4606737896936634}
+  m_Father: {fileID: 4573876372250196}
+  m_LocalEulerAnglesHint: {x: 0, y: -4.698, z: 0}
