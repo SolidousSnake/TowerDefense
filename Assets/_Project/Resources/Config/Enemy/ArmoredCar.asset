@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: ArmoredCar
   m_EditorClassIdentifier: 
   <MaxHealth>k__BackingField: 10
-  <MovementSpeed>k__BackingField: 15
+  <MovementSpeed>k__BackingField: 10
   <KillReward>k__BackingField: 10
   <Prefab>k__BackingField: {fileID: 8054775913530895127, guid: b55d8e10137390046b676251cfa33ba8, type: 3}

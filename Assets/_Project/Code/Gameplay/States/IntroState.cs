@@ -1,24 +1,29 @@
 ﻿using _Project.Code.Config;
 using _Project.Code.Core.AssetManagement;
 using _Project.Code.Core.Fsm;
-using Cysharp.Threading.Tasks;
-using VContainer;
+using _Project.Code.Core.Timers;
 
 namespace _Project.Code.Gameplay.States
 {
     public class IntroState : IState
     {
-        [Inject] private ConfigProvider _configProvider;
-        [Inject] private GameplayStateMachine _fsm;
-        
-        public async void Enter()
+        private readonly GameplayStateMachine _fsm;
+        private readonly CountdownTimer _timer;
+
+        public IntroState(ConfigProvider configProvider
+            , GameplayStateMachine fsm)
         {
-            await UniTask.WaitForSeconds(_configProvider.GetSingle<LevelConfig>().FirstSpawnDelay);
-            _fsm.Enter<PlayingState>();
+            _fsm = fsm;
+
+            _timer = new CountdownTimer(configProvider.GetSingle<LevelConfig>().FirstSpawnDelay);
         }
 
-        public void Exit()
+        public void Enter()
         {
+            _timer.OnFinish += _fsm.Enter<PlayingState>;
+            _timer.Start();
         }
+
+        public void Exit() => _timer.OnStart -= _fsm.Enter<PlayingState>;
     }
 }

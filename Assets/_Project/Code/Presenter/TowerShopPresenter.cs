@@ -21,10 +21,8 @@ namespace _Project.Code.Presenter
 
         private void Buy(TowerConfig config)
         {
-            if (_walletService.GameplayCoins.Value >= config.Price)
-            {
+            if (_walletService.GameplayCoins.Value >= config.Price) 
                 _placementService.StartPlacement(config);
-            }
         }
 
         public void Show()

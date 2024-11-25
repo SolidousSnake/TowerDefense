@@ -1,47 +1,48 @@
 ﻿using System;
+using _Project.Code.Core.Timers;
 using _Project.Code.Gameplay.Weapon.Attack;
-using Cysharp.Threading.Tasks;
 
 namespace _Project.Code.Gameplay.Weapon.FireMode
 {
     public class SemiAutoFire : IFireMode
     {
         private readonly IWeaponAttack _weaponAttack;
-        private float _fireDelay;
+        private readonly CountdownTimer _countdownTimer;
+
         private bool _allowShooting;
 
-        public SemiAutoFire(IWeaponAttack weaponAttack)
+        public SemiAutoFire(IWeaponAttack weaponAttack, float fireDelay)
         {
             _weaponAttack = weaponAttack;
             _allowShooting = true;
+
+            _countdownTimer = new CountdownTimer(fireDelay);
+            _countdownTimer.OnFinish += HandleFireDelay;
         }
 
-        public event Action Fired;
-        public event Action Stopped;
-
-        public void SetFireDelay(float fireDelay) => _fireDelay = fireDelay;
-
+        public event Action OnFire;
+        public event Action OnStop;
+        
         public void Fire()
         {
             if (!_allowShooting)
                 return;
 
-            _weaponAttack.Attack();
-            Fired?.Invoke();
             _allowShooting = false;
-            HandleFireDelay().Forget();
+            _countdownTimer.Start();
+            _weaponAttack.Attack();
+            OnFire?.Invoke();
+        }
+
+        private void HandleFireDelay()
+        {
+            OnStop?.Invoke();
+            _allowShooting = true;
         }
 
         public void StopFire()
         {
             
-        }
-
-        private async UniTask HandleFireDelay()
-        {
-            await UniTask.Delay(TimeSpan.FromSeconds(_fireDelay));
-            Stopped?.Invoke();
-            _allowShooting = true;
         }
     }
 }

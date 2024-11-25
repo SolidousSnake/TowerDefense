@@ -2,6 +2,7 @@
 using _Project.Code.Core.Factory;
 using _Project.Code.Core.Fsm;
 using _Project.Code.Gameplay.Point;
+using _Project.Code.Gameplay.Repository;
 using _Project.Code.Gameplay.Spawner;
 using _Project.Code.Presenter;
 using _Project.Code.Services.TowerPlacement;
@@ -35,6 +36,7 @@ namespace _Project.Code.Core.DiContainer
 
             builder.AddSingleton<GameplayStateMachine>();
             builder.AddSingleton<StateFactory>();
+            builder.AddSingleton<EnemyRepository>();
 
             builder.RegisterInstance(_healthLabel);
             builder.RegisterInstance(_waveLabel);

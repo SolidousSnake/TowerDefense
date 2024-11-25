@@ -25,7 +25,8 @@ namespace _Project.Code.Gameplay.Sfx
 
             _isPlaying = true;
             _fireAudioSource.PlayOneShot(GetRandomFireClip(_sfxConfig.OneShotClip));
-            _fireAudioSource.clip = GetRandomFireClip(_sfxConfig.FireClip);
+            _tailAudioSource.PlayOneShot(GetRandomFireClip(_sfxConfig.FireTailClip));
+            _fireAudioSource.clip = GetRandomFireClip(_sfxConfig?.FireClip);
             
             _fireAudioSource.loop = true;
             _fireAudioSource.Play();

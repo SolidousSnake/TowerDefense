@@ -17,7 +17,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: dbf7f6578c1fff24d8706164a5306403, type: 3}
   - {fileID: 8300000, guid: cbe1333a90166d740a572a2de7aab576, type: 3}
   - {fileID: 8300000, guid: e7d10f3104774994bb8b52b751d6f6ac, type: 3}
-  <FireClip>k__BackingField: []
+  <FireClip>k__BackingField:
+  - {fileID: 8300000, guid: 1e63fce243f323141aca6715389ae5db, type: 3}
   <FireTailClip>k__BackingField:
   - {fileID: 8300000, guid: 8e47bf04277c5304a9fedc526d9ff3f1, type: 3}
   - {fileID: 8300000, guid: ff5650495d5e4854e9ffb900b0db609d, type: 3}

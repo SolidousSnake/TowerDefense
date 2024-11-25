@@ -26,7 +26,6 @@ namespace _Project.Code.UI.View
         private void PlaceBuilding()
         {
             _placementService.PlaceBuilding();
-            Close();
         }
 
         private void StopPlacement()

@@ -41,7 +41,7 @@ namespace _Project.Code.Core.Bootstrapper
         public void Initialize()
         {
             WarmUpAssets();
-
+            
             var levelConfig = _configProvider.GetSingle<LevelConfig>();
             var playerHealth = new PlayerHealth(levelConfig.MaxPlayerHealth);
 
@@ -53,16 +53,12 @@ namespace _Project.Code.Core.Bootstrapper
             _placementService.Initialize(levelConfig.PlacementLayer);
             _towerShopPresenter.Initialize();
 
-            playerHealth.Points
-                .Subscribe(_healthLabel.SetAmount).AddTo(_cd);
-            
-            playerHealth.Points
-                .Where(points => points <= 0)
-                .Subscribe(_ => _fsm.Enter<FailureState>()).AddTo(_cd);
+            playerHealth.Points.Subscribe(_healthLabel.SetAmount).AddTo(_cd);
+            playerHealth.Points.Where(points => points <= 0).Subscribe(_ => _fsm.Enter<FailureState>()).AddTo(_cd);
 
             CreateStates();
 
-            _fsm.Enter<PlayingState>();
+            _fsm.Enter<IntroState>();
         }
 
         private void WarmUpAssets()
@@ -83,6 +79,10 @@ namespace _Project.Code.Core.Bootstrapper
             _fsm.RegisterState(_stateFactory.Create<LoadMenuState>());
         }
 
-        public void Dispose() => _cd.Dispose();
+        public void Dispose()
+        {
+            _enemySpawner.Dispose();
+            _cd.Dispose();
+        }
     }
 }

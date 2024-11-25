@@ -1,65 +1,39 @@
 ﻿using System;
-using System.Threading;
+using _Project.Code.Core.Timers;
 using _Project.Code.Gameplay.Weapon.Attack;
-using Cysharp.Threading.Tasks;
-using UnityEngine;
 
 namespace _Project.Code.Gameplay.Weapon.FireMode
 {
     public class FullAutoFire : IFireMode
     {
         private readonly IWeaponAttack _weaponAttack;
-        private float _fireDelay;
+        private readonly CountdownTimer _countdownTimer;
 
         private bool _allowShooting;
-        private CancellationTokenSource _cts;
         
-        public FullAutoFire(IWeaponAttack weaponAttack)
+        public FullAutoFire(IWeaponAttack weaponAttack, float fireDelay)
         {
             _weaponAttack = weaponAttack;
             _allowShooting = true;
+
+            _countdownTimer = new CountdownTimer(fireDelay);
+            _countdownTimer.OnFinish += () => _allowShooting = true;
         }
 
-        public event Action Fired;
-        public event Action Stopped;
+        public event Action OnFire;
+        public event Action OnStop;
         
-        public void SetFireDelay(float delay) => _fireDelay = delay;
-
         public void Fire()
         {
-            _cts = new CancellationTokenSource();
+            if (!_allowShooting)
+                return;
 
-            if (_allowShooting)
-                ExecuteFire().Forget();
+            OnFire?.Invoke();
+            _weaponAttack.Attack();
+            _countdownTimer.Start();
+            _allowShooting = false;
         }
 
-        public void StopFire()
-        {
-            _cts?.Cancel();
-            Stopped?.Invoke();
-            _allowShooting = true;
-        }
-
-        private async UniTask ExecuteFire()
-        {
-            try
-            {
-                while (!_cts.Token.IsCancellationRequested)
-                {
-                    _weaponAttack.Attack();
-                    Fired?.Invoke();
-                    _allowShooting = false;
-                    await UniTask.Delay(TimeSpan.FromSeconds(_fireDelay), cancellationToken: _cts.Token);
-                }
-            }
-            catch (OperationCanceledException)
-            {
-                Stopped?.Invoke();
-            }
-            catch (Exception ex)
-            {
-                Debug.LogError($"An error occurred during firing: {ex.Message}");
-            }
-        }
+        public void StopFire() => OnStop?.Invoke();
     }
 }

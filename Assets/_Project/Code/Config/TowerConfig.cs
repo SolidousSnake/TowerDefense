@@ -10,7 +10,7 @@ namespace _Project.Code.Config
 
     public class TowerConfig : ScriptableObject
     {
-        [field: BoxGroup("Config")] [field: SerializeField] public SfxConfig SfxConfig { get; private set; }
+        [field: BoxGroup("Config")] [field: InlineEditor] [field: SerializeField] public SfxConfig SfxConfig { get; private set; }
         
         [field: BoxGroup("Shop")] [field: SerializeField] public string Name { get; private set; }
         [field: BoxGroup("Shop")] [field: SerializeField] public int Price { get; private set; }

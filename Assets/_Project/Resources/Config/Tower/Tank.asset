@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a07ece7cd23a481fb9f73416e7e06049, type: 3}
-  m_Name: TankConfig
+  m_Name: Tank
   m_EditorClassIdentifier: 
   <SfxConfig>k__BackingField: {fileID: 11400000, guid: 517797e1b436d714f938e2848ac07b7f, type: 2}
   <Name>k__BackingField: Tank
@@ -18,13 +18,13 @@ MonoBehaviour:
   <TowerIcon>k__BackingField: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
   <Damage>k__BackingField: 40
   <Penetration>k__BackingField: 1
-  <Range>k__BackingField: 40
-  <FireRate>k__BackingField: 0.4
-  <RotationSpeed>k__BackingField: 25
+  <Range>k__BackingField: 20
+  <FireRate>k__BackingField: 3
+  <RotationSpeed>k__BackingField: 30
   <AttackType>k__BackingField: 0
   <FireModeType>k__BackingField: 1
   <EnemyLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 256
-  <Size>k__BackingField: {x: 1, y: 2}
+  <Size>k__BackingField: {x: 5, y: 11}
   <Prefab>k__BackingField: {fileID: -5393606366550864761, guid: 03992f2b17b478a4c8d53a8cb95a1e71, type: 3}

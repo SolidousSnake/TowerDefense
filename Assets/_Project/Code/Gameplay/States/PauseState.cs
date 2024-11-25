@@ -24,7 +24,7 @@ namespace _Project.Code.Gameplay.States
             switch (result)
             {
                 case TargetStates.Resume:
-                    _fsm.Enter<PlayingState>();
+                    _fsm.EnterPreviousState();
                     break;
                 case TargetStates.Restart:
                     _fsm.Enter<RestartState>();
@@ -37,6 +37,10 @@ namespace _Project.Code.Gameplay.States
             }
         }
 
-        public void Exit() => _view.Hide();
+        public void Exit()
+        {
+            Time.timeScale = Constants.Time.ResumedValue;
+            _view.Hide();
+        }
     }
 }

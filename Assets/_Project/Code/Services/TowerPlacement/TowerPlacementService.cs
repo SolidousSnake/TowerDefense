@@ -1,6 +1,7 @@
 ﻿using _Project.Code.Config;
 using _Project.Code.Gameplay.Repository;
 using _Project.Code.Gameplay.Tower;
+using _Project.Code.Services.Wallet;
 using _Project.Code.UI.View;
 using UnityEngine;
 using VContainer;
@@ -10,7 +11,9 @@ namespace _Project.Code.Services.TowerPlacement
 {
     public class TowerPlacementService : ITickable
     {
-        [Inject] private TowerPlacementView _view;
+        [Inject] private readonly WalletService _walletService;
+        [Inject] private readonly TowerPlacementView _view;
+        [Inject] private readonly EnemyRepository _enemyRepository;
 
         private BuildingRepository _buildingRepository;
         private Building _previewBuilding;
@@ -40,7 +43,7 @@ namespace _Project.Code.Services.TowerPlacement
         {
             if (_previewBuilding is null)
                 return;
-            
+
             Object.Destroy(_previewBuilding.gameObject);
             _previewBuilding = null;
             _view.Close();
@@ -61,12 +64,14 @@ namespace _Project.Code.Services.TowerPlacement
 
             if (_buildingRepository.IsPositionFree(_previewBuilding, gridPosition))
             {
+                _walletService.ReduceGameplayCoins(_currentConfig.Price);
+
                 _buildingRepository.Add(_previewBuilding, gridPosition);
                 _previewBuilding.ResetColor();
-                _previewBuilding.GetComponent<TowerFacade>().Initialize(_currentConfig);
-                
+                _previewBuilding.GetComponent<TowerFacade>().Initialize(_currentConfig, _enemyRepository);
+
                 _previewBuilding = null;
-                // Debug.Log($"X: {position.x}; Z: {position.y}");
+                _view.Close();
             }
         }
 
@@ -85,9 +90,9 @@ namespace _Project.Code.Services.TowerPlacement
                     Mathf.RoundToInt(worldPosition.z)
                 );
                 bool canPlace = _buildingRepository.IsPositionFree(_previewBuilding, position);
-
+                
                 if (_previewBuilding.transform.position == Vector3.zero)
-                    _previewBuilding.transform.position = new Vector3(position.x, -10f, position.y);
+                    _previewBuilding.transform.position = new Vector3(position.x, 0f, position.y);
 
                 _previewBuilding.transform.position = new Vector3(position.x, 0f, position.y);
                 _previewBuilding.SetTransparent(canPlace);

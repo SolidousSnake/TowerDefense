@@ -1,21 +1,25 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using _Project.Code.Config;
 using _Project.Code.Gameplay.Enemy;
 using _Project.Code.Gameplay.Point;
+using _Project.Code.Gameplay.Repository;
 using _Project.Code.Gameplay.Unit;
 using _Project.Code.Services.Wallet;
 using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace _Project.Code.Gameplay.Spawner
 {
-    public class EnemySpawner
+    public class EnemySpawner : IDisposable
     {
         private readonly WayPoint[] _wayPoints;
         private readonly SpawnPoint _spawnPoint;
         private readonly WalletService _walletService;
+        private readonly EnemyRepository _enemyRepository;
 
         private readonly ReactiveProperty<int> _waveIndex;
         private IReadOnlyList<WaveConfig> _waves;
@@ -27,11 +31,13 @@ namespace _Project.Code.Gameplay.Spawner
 
         public EnemySpawner(WayPoint[] wayPoints
             , SpawnPoint spawnPoint
-            , WalletService walletService)
+            , WalletService walletService
+            , EnemyRepository enemyRepository)
         {
             _wayPoints = wayPoints;
             _spawnPoint = spawnPoint;
             _walletService = walletService;
+            _enemyRepository = enemyRepository;
 
             _waveIndex = new ReactiveProperty<int>(0);
             WaveIndex = _waveIndex.ToReadOnlyReactiveProperty();
@@ -45,15 +51,15 @@ namespace _Project.Code.Gameplay.Spawner
             _playerHealth = playerHealth;
         }
 
-        public void StartSpawning()
+        private void StartSpawning()
         {
             _cts = new CancellationTokenSource();
             SpawnAsync().Forget();
         }
 
-        public void StopSpawning() => _cts.Cancel();
+        private void StopSpawning() => _cts?.Cancel();
         public void Pause() => _isPaused = true;
-        public void Resume() => _isPaused = false;
+        private void Resume() => _isPaused = false;
 
         public void ResumeOrStart()
         {
@@ -85,7 +91,7 @@ namespace _Project.Code.Gameplay.Spawner
             var instance = Object.Instantiate(wave.Enemy.Prefab, _spawnPoint.Position, Quaternion.identity);
 
             var enemy = instance.GetComponent<EnemyFacade>();
-            enemy.Initialize(wave.Enemy, _wayPoints, _playerHealth);
+            enemy.Initialize(wave.Enemy, _wayPoints, _playerHealth, _enemyRepository);
 
             enemy.Health.Points.Where(hp => hp <= 0)
                 .Subscribe(_ => HandleEnemyDeath(wave.Enemy.KillReward)).AddTo(enemy);
@@ -100,5 +106,7 @@ namespace _Project.Code.Gameplay.Spawner
             _walletService.AddGameplayCoins(reward);
             SpawnAsync().Forget();
         }
+
+        public void Dispose() => StopSpawning();
     }
 }

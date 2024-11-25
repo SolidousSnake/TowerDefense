@@ -1,14 +1,19 @@
 using _Project.Code.Core.AssetManagement;
 using _Project.Code.Core.SceneManagement;
 using _Project.Code.Services.SaveLoad;
+using _Project.Code.Services.Sound;
 using _Project.Code.Services.Wallet;
 using _Project.Code.Utils;
+using UnityEngine;
+using UnityEngine.Audio;
 using VContainer;
 
 namespace _Project.Code.Core.DiContainer
 {
     public sealed class RootDiContainer : DiContainerBase
     {
+        [SerializeField] private AudioMixerGroup _audioMixerGroup;
+        
         protected override void AddDependencies(IContainerBuilder builder)
         {
             BindServices(builder);
@@ -21,6 +26,7 @@ namespace _Project.Code.Core.DiContainer
         private void BindServices(IContainerBuilder builder)
         {
             builder.AddSingleton<WalletService>();
+            builder.AddSingleton<SoundService>().WithParameter(_audioMixerGroup);
             builder.AddSingleton<ISaveLoadService, JsonSaveLoadService>();
         }
     }

@@ -47,7 +47,5 @@ MonoBehaviour:
   parentReference:
     TypeName: 
   autoRun: 1
-  autoInjectGameObjects:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  autoInjectGameObjects: []
+  _audioMixerGroup: {fileID: 24300002, guid: 8e8da91223a078347bf23be4d606dd2e, type: 2}

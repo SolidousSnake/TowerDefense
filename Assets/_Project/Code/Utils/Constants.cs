@@ -18,5 +18,15 @@
             public const string Menu = "Menu";
         }
 
+        public static class Audio
+        {
+            public const float MuteValue = -80f;
+            public const float OriginalValue = 0f;
+            public const float MaxValue = 20f;
+            
+            public const string Master = "Master";
+            public const string Music = "Music";
+            public const string SFX = "SFX";
+        }
     }
 }
