@@ -24,6 +24,7 @@ namespace _Project.Code.Core.Bootstrapper
         [Inject] private readonly WalletService _walletService;
         [Inject] private readonly EnemySpawner _enemySpawner;
 
+        [Inject] private readonly PlayerHealth _playerHealth;
         [Inject] private readonly GameplayStateMachine _fsm;
         [Inject] private readonly TowerPlacementService _placementService;
         [Inject] private readonly TowerShopPresenter _towerShopPresenter;
@@ -37,24 +38,25 @@ namespace _Project.Code.Core.Bootstrapper
         {
             _cd = new CompositeDisposable();
         }
-        
+
         public void Initialize()
         {
             WarmUpAssets();
-            
+
             var levelConfig = _configProvider.GetSingle<LevelConfig>();
-            var playerHealth = new PlayerHealth(levelConfig.MaxPlayerHealth);
 
             _walletService.ResetGameplayCoins();
             _walletService.AddGameplayCoins(levelConfig.InitialMoneyCount);
+            _playerHealth.Initialize(levelConfig.MaxPlayerHealth);
 
+            _enemySpawner.Initialize(levelConfig.Waves);
             _waveLabel.Initialize(_enemySpawner, levelConfig.Waves.Length);
-            _enemySpawner.Initialize(levelConfig.Waves, playerHealth);
             _placementService.Initialize(levelConfig.PlacementLayer);
             _towerShopPresenter.Initialize();
 
-            playerHealth.Points.Subscribe(_healthLabel.SetAmount).AddTo(_cd);
-            playerHealth.Points.Where(points => points <= 0).Subscribe(_ => _fsm.Enter<FailureState>()).AddTo(_cd);
+            _playerHealth.Points.Subscribe(_healthLabel.SetAmount).AddTo(_cd);
+            _playerHealth.Points.Where(points => points <= 0)
+                .Subscribe(_ => _fsm.Enter<FailureState>()).AddTo(_cd);
 
             CreateStates();
 
@@ -79,10 +81,6 @@ namespace _Project.Code.Core.Bootstrapper
             _fsm.RegisterState(_stateFactory.Create<LoadMenuState>());
         }
 
-        public void Dispose()
-        {
-            _enemySpawner.Dispose();
-            _cd.Dispose();
-        }
+        public void Dispose() => _cd.Dispose();
     }
 }

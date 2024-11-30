@@ -20,7 +20,6 @@ namespace _Project.Code.Config
         [field: BoxGroup("Combat")] [field: SerializeField] public int Penetration { get; private set; }
         [field: BoxGroup("Combat")] [field: SerializeField] public float Range { get; private set; }
         [field: BoxGroup("Combat")] [field: SerializeField] public float FireRate { get; private set; }
-        [field: BoxGroup("Combat")] [field: SerializeField] public float RotationSpeed { get; private set; }
         [field: BoxGroup("Combat")] [field: SerializeField] public WeaponAttackType AttackType { get; private set; }
         [field: BoxGroup("Combat")] [field: SerializeField] public FireModeType FireModeType { get; private set; }
         [field: BoxGroup("Combat")] [field: SerializeField] public LayerMask EnemyLayer { get; private set; }

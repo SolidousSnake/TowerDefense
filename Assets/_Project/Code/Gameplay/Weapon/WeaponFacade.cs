@@ -1,5 +1,5 @@
 ﻿using _Project.Code.Config;
-using _Project.Code.Gameplay.Sfx;
+using _Project.Code.Gameplay.Sfx.Weapon;
 using _Project.Code.Gameplay.Weapon.Attack;
 using _Project.Code.Gameplay.Weapon.FireMode;
 using UnityEngine;
@@ -14,14 +14,13 @@ namespace _Project.Code.Gameplay.Weapon
 
         private IWeaponAttack _weaponAttack;
         private IFireMode _fireMode;
-        private TowerSfx _sfx;
+        private WeaponSfx _sfx;
         
         public void Initialize(TowerConfig config)
         {
-            _sfx = new TowerSfx(_fireAudioSource, _tailAudioSource, config.SfxConfig);
-
             InstallWeaponAttack(config);
             InstallFireMode(config);
+            InstallSfx(config.FireModeType, config.SfxConfig);
             
             _fireMode.OnFire += _sfx.PlayFire;
             _fireMode.OnStop += _sfx.StopFire;
@@ -40,24 +39,27 @@ namespace _Project.Code.Gameplay.Weapon
                 _ => throw new System.ArgumentException("Invalid Attack type")
             };
         }
-
+        
+        private void InstallSfx(FireModeType type, SfxConfig config)
+        {
+            _sfx = type switch
+            {
+                FireModeType.Full => new FullAutoFireSfx(_fireAudioSource, _tailAudioSource, config),
+                FireModeType.Semi => new SemiAutoFireSfx(_fireAudioSource, _tailAudioSource, config),
+                _ => throw new System.ArgumentException("Invalid Attack type")
+            };
+        }
+        
         private void InstallWeaponAttack(TowerConfig config)
         {
             _weaponAttack = config.AttackType switch
             {
                 WeaponAttackType.Ray => new RayAttack(_shootPoint, config.EnemyLayer),
-                WeaponAttackType.Projectile => new ProjectileAttack(),
                 _ => throw new System.ArgumentException("Invalid Attack type")
             };
 
             _weaponAttack.SetDamage(config.Damage);
             _weaponAttack.SetRange(config.Range);
-        }
-
-        private void OnDestroy()
-        {
-            _fireMode.OnFire -= _sfx.PlayFire;
-            _fireMode.OnStop -= _sfx.StopFire;
         }
     }
 }

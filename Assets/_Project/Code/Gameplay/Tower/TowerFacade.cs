@@ -12,7 +12,7 @@ namespace _Project.Code.Gameplay.Tower
     {
         [SerializeField] private Transform _rotationPart;
         [SerializeField] private WeaponFacade _weaponFacade;
-        
+
         private readonly Collider[] _targets = new Collider[Constants.DefaultCapacity];
         private bool _initialized = false;
         private TowerConfig _config;
@@ -27,11 +27,10 @@ namespace _Project.Code.Gameplay.Tower
             _config = config;
             _rotator = new TowerRotator(transform, _rotationPart);
             _targetSelector = new TargetSelector(enemyRepository, transform);
-            
+
             _weaponFacade.Initialize(config);
-            
+
             _targetSelector.SetRange(config.Range);
-            _rotator.SetRotationSpeed(config.RotationSpeed);
             _initialized = true;
         }
 
@@ -41,7 +40,7 @@ namespace _Project.Code.Gameplay.Tower
                 return;
 
             var enemy = _targetSelector.GetNearestEnemy();
-            
+
             if (enemy is null)
             {
                 _weaponFacade.StopFire();
@@ -50,14 +49,12 @@ namespace _Project.Code.Gameplay.Tower
 
             _currentTarget = enemy.transform;
             _rotator.Rotate(_currentTarget.position);
-
-            if (_rotator.IsAlignedWith(_currentTarget.position)) 
-                _weaponFacade.Fire();
+            _weaponFacade.Fire();
         }
 
         private void OnDrawGizmosSelected()
         {
-            if(_config is null)
+            if (_config is null)
                 return;
 
             Gizmos.color = Color.red;

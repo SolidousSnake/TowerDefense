@@ -17,7 +17,6 @@ namespace _Project.Code.Services.Wallet
             _menuCoins = new ReactiveProperty<int>();
             MenuCoins = _menuCoins.ToReadOnlyReactiveProperty();
         }
-
         /// <summary>
         /// Coins used in gameplay scenes for in-level purchases, such as buying towers.
         /// </summary>
@@ -45,6 +44,7 @@ namespace _Project.Code.Services.Wallet
         }
 
         public void ReduceGameplayCoins(int amount) => _gameplayCoins.Value -= amount;
+        
         public void ReduceMenuCoins(int amount) => _menuCoins.Value -= amount;
     }
 }

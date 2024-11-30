@@ -13,7 +13,7 @@ namespace _Project.Code.Gameplay.Repository
             _list = new List<EnemyFacade>(Constants.DefaultCapacity);
         }
 
-        public IReadOnlyList<EnemyFacade> List => _list;
+        public IEnumerable<EnemyFacade> List => _list;
 
         public void Add(EnemyFacade enemy)
         {

@@ -20,8 +20,6 @@ namespace _Project.Code.Gameplay.Tower
 
         public EnemyFacade GetNearestEnemy()
         {
-            GameObject nearestEnemy = null;
-
             foreach (var enemy in _enemyRepository.List)
             {
                 if (enemy is null || !enemy.IsAlive)

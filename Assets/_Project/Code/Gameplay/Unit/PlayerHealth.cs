@@ -2,8 +2,10 @@
 {
     public class PlayerHealth : Health
     {
-        public PlayerHealth(float hp) : base(hp)
+        public void Initialize(float value)
         {
+            SetMaxHealth(value);
+            SetHealth(value);
         }
     }
 }

@@ -16,11 +16,10 @@ MonoBehaviour:
   <Name>k__BackingField: Pickup
   <Price>k__BackingField: 100
   <TowerIcon>k__BackingField: {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
-  <Damage>k__BackingField: 3
+  <Damage>k__BackingField: 0.7
   <Penetration>k__BackingField: 1
   <Range>k__BackingField: 25
-  <FireRate>k__BackingField: 0.2
-  <RotationSpeed>k__BackingField: 25
+  <FireRate>k__BackingField: 0.09375
   <AttackType>k__BackingField: 0
   <FireModeType>k__BackingField: 0
   <EnemyLayer>k__BackingField:

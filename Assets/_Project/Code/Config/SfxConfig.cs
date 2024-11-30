@@ -6,7 +6,7 @@ namespace _Project.Code.Config
     public class SfxConfig : ScriptableObject
     {
         [field: SerializeField] public AudioClip[] OneShotClip { get; private set; }
-        [field: SerializeField] public AudioClip[] FireClip { get; private set; }
+        [field: SerializeField] public AudioClip[] FireLoopClip { get; private set; }
         [field: SerializeField] public AudioClip[] FireTailClip { get; private set; }
     }
 }

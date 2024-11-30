@@ -10,7 +10,7 @@ namespace _Project.Code.Gameplay.Weapon.FireMode
         private readonly CountdownTimer _countdownTimer;
 
         private bool _allowShooting;
-        
+
         public FullAutoFire(IWeaponAttack weaponAttack, float fireDelay)
         {
             _weaponAttack = weaponAttack;
@@ -22,12 +22,12 @@ namespace _Project.Code.Gameplay.Weapon.FireMode
 
         public event Action OnFire;
         public event Action OnStop;
-        
+
         public void Fire()
         {
             if (!_allowShooting)
                 return;
-
+            
             OnFire?.Invoke();
             _weaponAttack.Attack();
             _countdownTimer.Start();

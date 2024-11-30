@@ -15,7 +15,7 @@
         public static class Scene
         {
             public const string Game = "Game";
-            public const string Menu = "Menu";
+            public const string Lobby = "Lobby";
         }
 
         public static class Audio

@@ -8,7 +8,7 @@ namespace _Project.Code.Gameplay.Weapon.Attack
     {
         private readonly Transform _shootPoint;
         private readonly LayerMask _enemyLayer;
-        
+
         private float _damage;
         private float _range;
 
@@ -21,8 +21,8 @@ namespace _Project.Code.Gameplay.Weapon.Attack
         public void Attack()
         {
             var ray = new Ray(_shootPoint.position, _shootPoint.forward);
-            if (Physics.Raycast(ray, out RaycastHit hitInfo, _range,_enemyLayer))
-                if (hitInfo.collider.TryGetComponent(out EnemyFacade enemy)) 
+            if (Physics.Raycast(ray, out RaycastHit hitInfo, _range, _enemyLayer))
+                if (hitInfo.collider.TryGetComponent(out EnemyFacade enemy))
                     enemy.Health.ApplyDamage(_damage);
         }
 
@@ -31,7 +31,6 @@ namespace _Project.Code.Gameplay.Weapon.Attack
             if (damage < 0)
                 throw new Exception($"Damage must be positive. Received: {damage}");
             _damage = damage;
-            
         }
 
         public void SetRange(float range)

@@ -4,6 +4,7 @@ using _Project.Code.Core.Fsm;
 using _Project.Code.Gameplay.Point;
 using _Project.Code.Gameplay.Repository;
 using _Project.Code.Gameplay.Spawner;
+using _Project.Code.Gameplay.Unit;
 using _Project.Code.Presenter;
 using _Project.Code.Services.TowerPlacement;
 using _Project.Code.UI.Label;
@@ -24,24 +25,29 @@ namespace _Project.Code.Core.DiContainer
 
         [BoxGroup("UI")] [SerializeField] private HealthLabel _healthLabel;
         [BoxGroup("UI")] [SerializeField] private WaveLabel _waveLabel;
-        
+        [Space]
         [BoxGroup("UI")] [SerializeField] private PauseStateView _pauseStateView;
+        [BoxGroup("UI")] [SerializeField] private FailureStateView _failureStateView;
+        [BoxGroup("UI")] [SerializeField] private VictoryStateView _victoryStateView;
+        [Space]
         [BoxGroup("UI")] [SerializeField] private TowerShopView _towerShopView;
         [BoxGroup("UI")] [SerializeField] private TowerPlacementView _towerPlacementView;
         [BoxGroup("UI")] [SerializeField] private TowerOperationView _towerOperationView;
 
         protected override void AddDependencies(IContainerBuilder builder)
         {
-            builder.RegisterEntryPoint<GameplaySceneBootstrapper>();
-
             builder.AddSingleton<GameplayStateMachine>();
             builder.AddSingleton<StateFactory>();
             builder.AddSingleton<EnemyRepository>();
+            builder.AddSingleton<PlayerHealth>();
 
             builder.RegisterInstance(_healthLabel);
             builder.RegisterInstance(_waveLabel);
             
             builder.RegisterInstance(_pauseStateView);
+            builder.RegisterInstance(_failureStateView);
+            builder.RegisterInstance(_victoryStateView);
+            
             builder.RegisterInstance(_towerShopView);
             builder.RegisterInstance(_towerOperationView);
             builder.RegisterInstance(_towerPlacementView);
@@ -53,6 +59,7 @@ namespace _Project.Code.Core.DiContainer
             builder.AddSingleton<TowerShopPresenter>();
 
             builder.RegisterEntryPoint<TowerPlacementService>().AsSelf();
+            builder.RegisterEntryPoint<GameplaySceneBootstrapper>();
         }
     }
 }

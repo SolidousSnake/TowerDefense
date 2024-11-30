@@ -18,9 +18,8 @@ MonoBehaviour:
   <TowerIcon>k__BackingField: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
   <Damage>k__BackingField: 40
   <Penetration>k__BackingField: 1
-  <Range>k__BackingField: 20
+  <Range>k__BackingField: 40
   <FireRate>k__BackingField: 3
-  <RotationSpeed>k__BackingField: 30
   <AttackType>k__BackingField: 0
   <FireModeType>k__BackingField: 1
   <EnemyLayer>k__BackingField:

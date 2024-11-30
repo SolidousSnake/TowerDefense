@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Threading;
 using _Project.Code.Config;
+using _Project.Code.Core.Fsm;
 using _Project.Code.Gameplay.Enemy;
 using _Project.Code.Gameplay.Point;
 using _Project.Code.Gameplay.Repository;
+using _Project.Code.Gameplay.States;
 using _Project.Code.Gameplay.Unit;
 using _Project.Code.Services.Wallet;
 using Cysharp.Threading.Tasks;
@@ -21,10 +23,11 @@ namespace _Project.Code.Gameplay.Spawner
         private readonly WalletService _walletService;
         private readonly EnemyRepository _enemyRepository;
 
+        private readonly PlayerHealth _playerHealth;
+        private readonly GameplayStateMachine _fsm;
         private readonly ReactiveProperty<int> _waveIndex;
         private IReadOnlyList<WaveConfig> _waves;
 
-        private PlayerHealth _playerHealth;
         private CancellationTokenSource _cts;
         private int _enemyCount;
         private bool _isPaused;
@@ -32,12 +35,16 @@ namespace _Project.Code.Gameplay.Spawner
         public EnemySpawner(WayPoint[] wayPoints
             , SpawnPoint spawnPoint
             , WalletService walletService
-            , EnemyRepository enemyRepository)
+            , EnemyRepository enemyRepository
+            , PlayerHealth playerHealth
+            , GameplayStateMachine fsm)
         {
             _wayPoints = wayPoints;
             _spawnPoint = spawnPoint;
             _walletService = walletService;
             _enemyRepository = enemyRepository;
+            _playerHealth = playerHealth;
+            _fsm = fsm;
 
             _waveIndex = new ReactiveProperty<int>(0);
             WaveIndex = _waveIndex.ToReadOnlyReactiveProperty();
@@ -45,11 +52,7 @@ namespace _Project.Code.Gameplay.Spawner
 
         public IReadOnlyReactiveProperty<int> WaveIndex { get; }
 
-        public void Initialize(IReadOnlyList<WaveConfig> waves, PlayerHealth playerHealth)
-        {
-            _waves = waves;
-            _playerHealth = playerHealth;
-        }
+        public void Initialize(IReadOnlyList<WaveConfig> waves) => _waves = waves;
 
         private void StartSpawning()
         {
@@ -77,6 +80,8 @@ namespace _Project.Code.Gameplay.Spawner
             var wave = _waves[_waveIndex.Value];
             _enemyCount = wave.Count;
 
+            await UniTask.Delay((int)(wave.TimeBetweenWaves * 1000), cancellationToken: _cts.Token);
+
             _waveIndex.Value++;
 
             for (int i = 0; i < wave.Count; i++)
@@ -99,11 +104,18 @@ namespace _Project.Code.Gameplay.Spawner
 
         private void HandleEnemyDeath(int reward)
         {
+            _walletService.AddGameplayCoins(reward);
             _enemyCount--;
+            
             if (_enemyCount > 0)
                 return;
 
-            _walletService.AddGameplayCoins(reward);
+            if (_waveIndex.Value >= _waves.Count)
+            {
+                _fsm.Enter<VictoryState>();
+                return;
+            }
+            
             SpawnAsync().Forget();
         }
 
