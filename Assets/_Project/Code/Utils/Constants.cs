@@ -20,8 +20,9 @@
 
         public static class Audio
         {
-            public const float MuteValue = -80f;
-            public const float OriginalValue = 0f;
+            public const float MinSliderValue = 0.0001f;
+            public const float MaxSliderValue = 1f;
+            public const float MuteValue = -80;
             public const float MaxValue = 20f;
             
             public const string Master = "Master";

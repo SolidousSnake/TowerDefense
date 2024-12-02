@@ -18,7 +18,7 @@ using VContainer.Unity;
 
 namespace _Project.Code.Core.DiContainer
 {
-    public sealed class SceneDiContainer : DiContainerBase
+    public sealed class GameplaySceneDiContainer : DiContainerBase
     {
         [BoxGroup("Points")] [SerializeField] private SpawnPoint _spawnPoint;
         [BoxGroup("Points")] [SerializeField] private WayPoint[] _wayPoints;

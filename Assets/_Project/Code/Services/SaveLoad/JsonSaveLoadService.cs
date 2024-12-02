@@ -2,7 +2,8 @@
 using _Project.Code.Data.PersistentProgress;
 using _Project.Code.Utils;
 using Newtonsoft.Json;
-using UnityEngine.Device;
+using UnityEngine;
+using Application = UnityEngine.Device.Application;
 
 
 namespace _Project.Code.Services.SaveLoad
@@ -10,7 +11,7 @@ namespace _Project.Code.Services.SaveLoad
     public class JsonSaveLoadService : ISaveLoadService
     {
         private readonly string _filePath = Application.persistentDataPath + Constants.PlayerProgress;
-        
+
         public void Save(PlayerProgress progress)
         {
             string json = JsonConvert.SerializeObject(progress);

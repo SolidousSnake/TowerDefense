@@ -5,11 +5,13 @@
     {
         public WalletData WalletData;
         public SoundData SoundData;
-
+        public SettingData SettingData;
+        
         public PlayerProgress()
         {
             WalletData ??= new WalletData();
             SoundData ??= new SoundData();
+            SettingData ??= new SettingData();
         }
     }
 }

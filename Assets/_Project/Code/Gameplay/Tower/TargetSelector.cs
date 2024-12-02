@@ -22,12 +22,19 @@ namespace _Project.Code.Gameplay.Tower
         {
             foreach (var enemy in _enemyRepository.List)
             {
-                if (enemy is null || !enemy.IsAlive)
-                    continue;
+                try
+                {
+                    if (enemy is null || !enemy.IsAlive)
+                        continue;
 
-                float distanceToEnemy = Vector3.Distance(_transform.position, enemy.transform.position);
-                if (distanceToEnemy <= _range)
-                    return enemy;
+                    float distanceToEnemy = Vector3.Distance(_transform.position, enemy.transform.position);
+                    if (distanceToEnemy <= _range)
+                        return enemy;
+                }
+                catch (MissingReferenceException ex)
+                {
+                    Debug.LogError($"Enemy object was destroyed: {ex.Message}");
+                }
             }
 
             return null;

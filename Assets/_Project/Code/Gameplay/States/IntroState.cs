@@ -14,7 +14,6 @@ namespace _Project.Code.Gameplay.States
             , GameplayStateMachine fsm)
         {
             _fsm = fsm;
-
             _timer = new CountdownTimer(configProvider.GetSingle<LevelConfig>().FirstSpawnDelay);
         }
 

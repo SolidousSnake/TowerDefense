@@ -1,6 +1,7 @@
 using _Project.Code.Core.AssetManagement;
 using _Project.Code.Core.SceneManagement;
 using _Project.Code.Services.SaveLoad;
+using _Project.Code.Services.Settings;
 using _Project.Code.Services.Sound;
 using _Project.Code.Services.Wallet;
 using _Project.Code.Utils;
@@ -17,6 +18,8 @@ namespace _Project.Code.Core.DiContainer
         protected override void AddDependencies(IContainerBuilder builder)
         {
             BindServices(builder);
+
+            builder.RegisterInstance(_audioMixerGroup);
             builder.AddSingleton<ISceneLoader, SceneLoader>();
             builder.AddSingleton<IAssetProvider, ResourcesAssetProvider>();
 
@@ -26,7 +29,8 @@ namespace _Project.Code.Core.DiContainer
         private void BindServices(IContainerBuilder builder)
         {
             builder.AddSingleton<WalletService>();
-            builder.AddSingleton<SoundService>().WithParameter(_audioMixerGroup);
+            builder.AddSingleton<SettingService>();
+            builder.AddSingleton<SoundService>();
             builder.AddSingleton<ISaveLoadService, JsonSaveLoadService>();
         }
     }

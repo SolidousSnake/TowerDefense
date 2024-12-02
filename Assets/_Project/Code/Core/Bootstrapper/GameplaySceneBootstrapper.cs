@@ -14,6 +14,7 @@ using _Project.Code.Utils;
 using VContainer;
 using VContainer.Unity;
 using UniRx;
+using UnityEngine;
 
 namespace _Project.Code.Core.Bootstrapper
 {
@@ -42,7 +43,6 @@ namespace _Project.Code.Core.Bootstrapper
         public void Initialize()
         {
             WarmUpAssets();
-
             var levelConfig = _configProvider.GetSingle<LevelConfig>();
 
             _walletService.ResetGameplayCoins();
