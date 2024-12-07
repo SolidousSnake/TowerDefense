@@ -44,22 +44,8 @@ namespace _Project.Code.Services.Tower
             _walletService.AddGameplayCoins(_currentTower.SellReward);
             _buildingRepository.RemoveBuilding(_currentTower.GridPosition);
             Object.Destroy(_currentTower.gameObject);
-            Debug.Log($"Removed tower: {_currentTower}");
+
             _view.Close();
         }
-        
-
-        // public void Remove(Building building, Vector2Int position)
-        // {
-        //     var towerFacade = building.GetComponent<TowerFacade>();
-        //     if (towerFacade == null)
-        //         return;
-        //
-        //     _walletService.AddGameplayCoins(towerFacade.);
-        //     _buildingRepository.RemoveBuilding(position);
-        //     Object.Destroy(building.gameObject);
-        //
-        //     Debug.Log($"Removed tower: {towerFacade}");
-        // }
     }
 }

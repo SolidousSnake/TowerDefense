@@ -32,6 +32,7 @@ namespace _Project.Code.UI.View
 
         public void Show(TowerFacade tower)
         {
+            Open();
             _towerNameLabel.name = tower.Name;
             _upgradeCostLabel.text = tower.UpgradeCost + _format;
             _sellRewardLabel.text = tower.SellReward + _format;
@@ -39,13 +40,13 @@ namespace _Project.Code.UI.View
 
         private void Upgrade()
         {
-            this.Hide();
+            Close();
             _service.Upgrade();
         }
 
         private void Remove()
         {
-            this.Hide();
+            Close();
             _service.Remove();
         }
     }

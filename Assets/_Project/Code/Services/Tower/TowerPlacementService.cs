@@ -12,9 +12,9 @@ namespace _Project.Code.Services.Tower
     public class TowerPlacementService : ITickable
     {
         private readonly WalletService _walletService;
+        private readonly TowerOperationService _towerOperationService;
         private readonly EnemyRepository _enemyRepository;
         private readonly BuildingRepository _buildingRepository;
-        
         private readonly TowerPlacementView _view;
         private readonly LayerMask _placementLayer;
 
@@ -22,16 +22,18 @@ namespace _Project.Code.Services.Tower
         private TowerConfig _currentConfig;
 
         public TowerPlacementService(
-            WalletService walletService
-            , TowerPlacementView view
-            , EnemyRepository enemyRepository
-            , BuildingRepository buildingRepository
-            , LayerMask placementLayer)
+            WalletService walletService,
+            TowerOperationService towerOperationService,
+            TowerPlacementView view,
+            EnemyRepository enemyRepository,
+            BuildingRepository buildingRepository,
+            LayerMask placementLayer)
         {
-            _view = view;
             _walletService = walletService;
+            _towerOperationService = towerOperationService;
             _enemyRepository = enemyRepository;
             _buildingRepository = buildingRepository;
+            _view = view;
             _placementLayer = placementLayer;
 
             _view.Initialize(this);
@@ -40,8 +42,7 @@ namespace _Project.Code.Services.Tower
 
         public void StartPlacement(TowerConfig config)
         {
-            if (_previewBuilding is not null)
-                StopPlacement();
+            StopPlacement();
 
             _currentConfig = config;
             _previewBuilding = Object.Instantiate(config.Prefab);
@@ -52,21 +53,10 @@ namespace _Project.Code.Services.Tower
 
         public void PlaceBuilding()
         {
-            if (_previewBuilding is null)
+            if (_previewBuilding is null || !TryPlaceBuilding(out var gridPosition))
                 return;
 
-            var position = _previewBuilding.transform.position;
-            var gridPosition = new Vector2Int(Mathf.RoundToInt(position.x), Mathf.RoundToInt(position.z));
-
-            if (!_buildingRepository.IsPositionFree(_previewBuilding, gridPosition))
-                return;
-
-            _buildingRepository.Add(_previewBuilding, gridPosition);
-            _walletService.ReduceGameplayCoins(_currentConfig.Price);
-            _previewBuilding.ResetColor();
-            _previewBuilding.GetComponent<TowerFacade>().Initialize(_currentConfig, _enemyRepository, gridPosition);
-            _previewBuilding = null;
-            _view.Close();
+            FinalizePlacement(gridPosition);
         }
 
         public void StopPlacement()
@@ -81,29 +71,74 @@ namespace _Project.Code.Services.Tower
 
         public void Tick()
         {
-            var position = Input.mousePosition;
-            HandleMovement(position);
+            var mousePosition = Input.mousePosition;
+            UpdatePreviewBuildingPosition(mousePosition);
+            HandlePlacementInput(mousePosition);
         }
 
-        private void HandleMovement(Vector3 pointPosition)
+        private void UpdatePreviewBuildingPosition(Vector3 mousePosition)
         {
             if (_previewBuilding is null)
                 return;
 
-            var ray = Camera.main.ScreenPointToRay(pointPosition);
-
-            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, _placementLayer))
+            if (TryGetGridPosition(mousePosition, out var gridPosition))
             {
-                var worldPosition = hit.point;
-                var position = new Vector2Int(Mathf.RoundToInt(worldPosition.x), Mathf.RoundToInt(worldPosition.z));
-                bool canPlace = _buildingRepository.IsPositionFree(_previewBuilding, position);
-
-                if (_previewBuilding.transform.position == Vector3.zero)
-                    _previewBuilding.transform.position = new Vector3(position.x, 0f, position.y);
-
-                _previewBuilding.transform.position = new Vector3(position.x, 0f, position.y);
+                bool canPlace = _buildingRepository.IsPositionFree(_previewBuilding, gridPosition);
+                _previewBuilding.transform.position = new Vector3(gridPosition.x, 0f, gridPosition.y);
                 _previewBuilding.SetTransparent(canPlace);
             }
+        }
+
+        private void HandlePlacementInput(Vector3 mousePosition)
+        {
+            if (_previewBuilding is not null)
+                return;
+
+            if (!Input.GetMouseButtonDown(0) || !TryGetGridPosition(mousePosition, out var gridPosition))
+                return;
+            _buildingRepository.TryGetBuilding(gridPosition, out var building);
+ 
+            if(building is null)
+                return;
+            _towerOperationService.Show(building);
+        }
+
+        private bool TryPlaceBuilding(out Vector2Int gridPosition)
+        {
+            gridPosition = default;
+
+            if (_previewBuilding is null)
+                return false;
+
+            var position = _previewBuilding.transform.position;
+            gridPosition = new Vector2Int(Mathf.RoundToInt(position.x), Mathf.RoundToInt(position.z));
+
+            return _buildingRepository.IsPositionFree(_previewBuilding, gridPosition);
+        }
+
+        private void FinalizePlacement(Vector2Int gridPosition)
+        {
+            _buildingRepository.Add(_previewBuilding, gridPosition);
+            _walletService.ReduceGameplayCoins(_currentConfig.Price);
+            _previewBuilding.ResetColor();
+            _previewBuilding.GetComponent<TowerFacade>().Initialize(_currentConfig, _enemyRepository, gridPosition);
+            _previewBuilding = null;
+            _view.Close();
+        }
+
+        private bool TryGetGridPosition(Vector3 mousePosition, out Vector2Int gridPosition)
+        {
+            gridPosition = default;
+
+            var ray = Camera.main.ScreenPointToRay(mousePosition);
+            if (Physics.Raycast(ray, out var hit, Mathf.Infinity, _placementLayer))
+            {
+                var worldPosition = hit.point;
+                gridPosition = new Vector2Int(Mathf.RoundToInt(worldPosition.x), Mathf.RoundToInt(worldPosition.z));
+                return true;
+            }
+
+            return false;
         }
     }
 }
