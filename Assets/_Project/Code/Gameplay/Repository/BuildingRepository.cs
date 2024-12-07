@@ -35,6 +35,9 @@ namespace _Project.Code.Gameplay.Repository
             return true;
         }
 
+        public bool TryGetBuilding(Vector2Int position, out Building building) 
+            => _buildingGrid.TryGetValue(position, out building);
+
         public void Clear() => _buildingGrid.Clear();
     }
 }

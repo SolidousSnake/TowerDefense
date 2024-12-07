@@ -2,6 +2,7 @@
 using _Project.Code.Core.Fsm;
 using _Project.Code.Gameplay.Spawner;
 using _Project.Code.UI.View.State;
+using _Project.Code.UI.View.State.Gameplay;
 using _Project.Code.Utils;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -31,6 +32,7 @@ namespace _Project.Code.Gameplay.States
                     break;
                 case TargetStates.Restart:
                     _fsm.Enter<RestartState>();
+                    Debug.Log("ASD");
                     break;
                 case TargetStates.LoadMenu:
                     _fsm.Enter<LoadMenuState>();
@@ -38,6 +40,7 @@ namespace _Project.Code.Gameplay.States
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+            Debug.Log("2");
         }
 
         public void Exit()

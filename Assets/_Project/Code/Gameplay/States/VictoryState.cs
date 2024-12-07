@@ -3,9 +3,8 @@ using _Project.Code.Core.AssetManagement;
 using _Project.Code.Core.Fsm;
 using _Project.Code.Gameplay.Unit;
 using _Project.Code.Services.Wallet;
-using _Project.Code.UI.View.State;
+using _Project.Code.UI.View.State.Gameplay;
 using _Project.Code.Utils;
-using UnityEngine;
 using VContainer;
 
 namespace _Project.Code.Gameplay.States
@@ -21,8 +20,8 @@ namespace _Project.Code.Gameplay.States
         public async void Enter()
         {
             int reward = (int)_playerHealth.Points.Value * _configProvider.GetSingle<LevelConfig>().VictoryRewardPerHealth;
-            Debug.Log(reward);
             _walletService.AddMenuCoins(reward);
+            _view.SetReward(reward);
             
             var result = await _view.Open();
 

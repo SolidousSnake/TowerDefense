@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace _Project.Code.Gameplay.Tower
 {
@@ -14,14 +13,14 @@ namespace _Project.Code.Gameplay.Tower
 
         public Vector2Int Size { get; private set; }
 
-        private void Awake()
-        {
-            SetSize();
-        }
+        private void Awake() => SetSize();
 
         public void SetTransparent(bool canPlace) => _mainRenderer.material.color = canPlace ? Color.green : Color.red;
 
         public void ResetColor() => _mainRenderer.material.color = Color.white;
+
+        private void SetSize() => 
+            Size = _rotationState is 1 or 3 ? new Vector2Int(_originalSize.y, _originalSize.x) : _originalSize;
 
         public void Rotate()
         {
@@ -30,9 +29,6 @@ namespace _Project.Code.Gameplay.Tower
             _model.transform.localPosition = _modelRotations[_rotationState];
             SetSize();
         }
-
-        private void SetSize() => 
-            Size = _rotationState is 1 or 3 ? new Vector2Int(_originalSize.y, _originalSize.x) : _originalSize;
 
         private void OnDrawGizmos()
         {

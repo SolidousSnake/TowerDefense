@@ -6,10 +6,10 @@ using _Project.Code.Gameplay.Repository;
 using _Project.Code.Gameplay.Spawner;
 using _Project.Code.Gameplay.Unit;
 using _Project.Code.Presenter;
-using _Project.Code.Services.TowerPlacement;
+using _Project.Code.Services.Tower;
 using _Project.Code.UI.Label;
 using _Project.Code.UI.View;
-using _Project.Code.UI.View.State;
+using _Project.Code.UI.View.State.Gameplay;
 using _Project.Code.Utils;
 using Alchemy.Inspector;
 using UnityEngine;
@@ -34,13 +34,41 @@ namespace _Project.Code.Core.DiContainer
         [BoxGroup("UI")] [SerializeField] private TowerPlacementView _towerPlacementView;
         [BoxGroup("UI")] [SerializeField] private TowerOperationView _towerOperationView;
 
+        public LayerMask _layerMask;
+        
         protected override void AddDependencies(IContainerBuilder builder)
         {
+            RegisterUI(builder);
+            RegisterServices(builder);
+            RegisterRepository(builder);
+
             builder.AddSingleton<GameplayStateMachine>();
             builder.AddSingleton<StateFactory>();
-            builder.AddSingleton<EnemyRepository>();
             builder.AddSingleton<PlayerHealth>();
+            
+            builder.RegisterInstance(_spawnPoint);
+            builder.RegisterInstance(_wayPoints);
 
+            builder.AddSingleton<EnemySpawner>();
+            builder.AddSingleton<TowerShopPresenter>();
+
+            builder.RegisterEntryPoint<GameplaySceneBootstrapper>();
+        }
+
+        private void RegisterRepository(IContainerBuilder builder)
+        {
+            builder.AddSingleton<EnemyRepository>();
+            builder.AddSingleton<BuildingRepository>();
+        }
+
+        private void RegisterServices(IContainerBuilder builder)
+        {
+            builder.AddSingleton<TowerOperationService>();
+            builder.RegisterEntryPoint<TowerPlacementService>().AsSelf().WithParameter(_layerMask);
+        }
+
+        private void RegisterUI(IContainerBuilder builder)
+        {
             builder.RegisterInstance(_healthLabel);
             builder.RegisterInstance(_waveLabel);
             
@@ -51,15 +79,6 @@ namespace _Project.Code.Core.DiContainer
             builder.RegisterInstance(_towerShopView);
             builder.RegisterInstance(_towerOperationView);
             builder.RegisterInstance(_towerPlacementView);
-
-            builder.RegisterInstance(_spawnPoint);
-            builder.RegisterInstance(_wayPoints);
-
-            builder.AddSingleton<EnemySpawner>();
-            builder.AddSingleton<TowerShopPresenter>();
-
-            builder.RegisterEntryPoint<TowerPlacementService>().AsSelf();
-            builder.RegisterEntryPoint<GameplaySceneBootstrapper>();
         }
     }
 }

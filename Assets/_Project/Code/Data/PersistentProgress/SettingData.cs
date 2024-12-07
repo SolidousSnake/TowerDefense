@@ -6,7 +6,7 @@
 
         public SettingData()
         {
-            FrameRate = 30;
+            FrameRate = 60;
         }
     }
 }

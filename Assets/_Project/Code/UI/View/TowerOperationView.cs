@@ -1,13 +1,17 @@
-﻿using TMPro;
+﻿using _Project.Code.Gameplay.Tower;
+using _Project.Code.Services.Tower;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UniRx;
 using _Project.Code.Utils;
+using Alchemy.Inspector;
 
 namespace _Project.Code.UI.View
 {
-    public class TowerOperationView : MonoBehaviour
+    public class TowerOperationView : MoveableUI
     {
+        [Title("Common")]
         [SerializeField] private TextMeshProUGUI _towerNameLabel;
         [SerializeField] private TextMeshProUGUI _upgradeCostLabel;
         [SerializeField] private TextMeshProUGUI _sellRewardLabel;
@@ -16,31 +20,33 @@ namespace _Project.Code.UI.View
         [SerializeField] private Button _cancelButton;
         [SerializeField] private string _format = "$";
 
-        private void Awake()
+       private TowerOperationService _service;
+
+        public void Initialize(TowerOperationService service)
         {
+            _service = service;
             _upgradeButton.OnClickAsObservable().Subscribe(_ => Upgrade()).AddTo(this);
             _removeButton.OnClickAsObservable().Subscribe(_ => Remove()).AddTo(this);
             _cancelButton.OnClickAsObservable().Subscribe(_ => this.Hide()).AddTo(this);
         }
 
-        public void Show(string name, string upgradeCost, string sellReward)
+        public void Show(TowerFacade tower)
         {
-            _towerNameLabel.name = name;
-            _upgradeCostLabel.text = upgradeCost + _format;
-            _sellRewardLabel.text = sellReward + _format;
+            _towerNameLabel.name = tower.Name;
+            _upgradeCostLabel.text = tower.UpgradeCost + _format;
+            _sellRewardLabel.text = tower.SellReward + _format;
         }
-
-        public void Show(string name, int upgradeCost, int sellReward) =>
-            Show(name, upgradeCost.ToString(), sellReward.ToString());
 
         private void Upgrade()
         {
             this.Hide();
+            _service.Upgrade();
         }
 
         private void Remove()
         {
             this.Hide();
+            _service.Remove();
         }
     }
 }

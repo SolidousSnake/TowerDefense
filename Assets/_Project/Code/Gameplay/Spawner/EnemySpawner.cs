@@ -12,12 +12,15 @@ using _Project.Code.Services.Wallet;
 using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
+using VContainer;
+using VContainer.Unity;
 using Object = UnityEngine.Object;
 
 namespace _Project.Code.Gameplay.Spawner
 {
     public class EnemySpawner : IDisposable
     {
+        private readonly IObjectResolver _objectResolver;
         private readonly WayPoint[] _wayPoints;
         private readonly SpawnPoint _spawnPoint;
         private readonly WalletService _walletService;
@@ -32,13 +35,16 @@ namespace _Project.Code.Gameplay.Spawner
         private int _enemyCount;
         private bool _isPaused;
 
-        public EnemySpawner(WayPoint[] wayPoints
+        public EnemySpawner(
+            IObjectResolver objectResolver
+            , WayPoint[] wayPoints
             , SpawnPoint spawnPoint
             , WalletService walletService
             , EnemyRepository enemyRepository
             , PlayerHealth playerHealth
             , GameplayStateMachine fsm)
         {
+            _objectResolver = objectResolver;
             _wayPoints = wayPoints;
             _spawnPoint = spawnPoint;
             _walletService = walletService;
@@ -93,7 +99,8 @@ namespace _Project.Code.Gameplay.Spawner
 
         private void SpawnEnemy(WaveConfig wave)
         {
-            var instance = Object.Instantiate(wave.Enemy.Prefab, _spawnPoint.Position, Quaternion.identity);
+            // var instance = Object.Instantiate(wave.Enemy.Prefab, _spawnPoint.Position, Quaternion.identity);
+            var instance = _objectResolver.Instantiate(wave.Enemy.Prefab, _spawnPoint.Position, Quaternion.identity);
 
             var enemy = instance.GetComponent<EnemyFacade>();
             enemy.Initialize(wave.Enemy, _wayPoints, _playerHealth, _enemyRepository);

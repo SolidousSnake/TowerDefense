@@ -1,5 +1,4 @@
 ﻿using _Project.Code.Services.Sound;
-using _Project.Code.Utils;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,22 +12,16 @@ namespace _Project.Code.UI.View
         [SerializeField] private Slider _sfxSlider;
         [Inject] private SoundService _soundService;
 
-        private void Start()
+        public void Start()
         {
-            var musicValue = _soundService.GetMusicValue();
+            _musicSlider.value = _soundService.MusicVolume.Value;
+            _sfxSlider.value = _soundService.SfxVolume.Value;
 
-            // Преобразуем логарифмическое значение обратно в линейное для слайдера
-            float linearMusicValue = Mathf.Pow(10, musicValue / Constants.Audio.MaxValue);
+            _musicSlider.OnValueChangedAsObservable().Subscribe(_soundService.SetMusicVolume).AddTo(this);
+            _sfxSlider.OnValueChangedAsObservable().Subscribe(_soundService.SetSfxVolume).AddTo(this);
 
-            // Ограничиваем значение слайдера, чтобы оно всегда было в пределах от 0 до 1
-            _musicSlider.value = Mathf.Clamp(linearMusicValue, Constants.Audio.MinSliderValue, 1f);
-
-            
-            _musicSlider.OnValueChangedAsObservable().Skip(1).Subscribe(SetMusicVolume).AddTo(this);
-            _sfxSlider.OnValueChangedAsObservable().Skip(1).Subscribe(SetSfxVolume).AddTo(this);
+            _soundService.MusicVolume.Subscribe(value => _musicSlider.SetValueWithoutNotify(value)).AddTo(this);
+            _soundService.SfxVolume.Subscribe(value => _sfxSlider.SetValueWithoutNotify(value)).AddTo(this);
         }
-
-        private void SetMusicVolume(float value) => _soundService.SetMusicVolume(value);
-        private void SetSfxVolume(float value) => _soundService.SetSfxVolume(value);
     }
 }

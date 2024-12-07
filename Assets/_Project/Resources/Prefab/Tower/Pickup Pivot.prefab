@@ -434,6 +434,7 @@ GameObject:
   - component: {fileID: -2147805376895649696}
   - component: {fileID: 2301942397105576406}
   - component: {fileID: -3569680174696032580}
+  - component: {fileID: 2484016982361175390}
   m_Layer: 0
   m_Name: Pickup Pivot
   m_TagString: Untagged
@@ -512,6 +513,27 @@ MonoBehaviour:
   _shootPoint: {fileID: 6260882602030320923}
   _fireAudioSource: {fileID: 7122999802236495117}
   _tailAudioSource: {fileID: 4385567930367779987}
+--- !u!65 &2484016982361175390
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8540242472975598737}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2, y: 3, z: 4.5}
+  m_Center: {x: 0.39999998, y: 1, z: 1.7}
 --- !u!1001 &6305873922237773755
 PrefabInstance:
   m_ObjectHideFlags: 0

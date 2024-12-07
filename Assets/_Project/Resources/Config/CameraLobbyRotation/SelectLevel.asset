@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c450a4c971c44eeba1a2d38f37aa80c5, type: 3}
+  m_Name: SelectLevel
+  m_EditorClassIdentifier: 
+  <Rotation>k__BackingField: {x: -60, y: -60, z: 0}
+  <Duration>k__BackingField: 0.35
+  <Ease>k__BackingField: 1

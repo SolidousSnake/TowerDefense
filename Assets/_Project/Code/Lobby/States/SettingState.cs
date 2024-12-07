@@ -1,0 +1,37 @@
+﻿using _Project.Code.Config;
+using _Project.Code.Core.AssetManagement;
+using _Project.Code.Core.Fsm;
+using _Project.Code.UI.View.State.Lobby;
+using _Project.Code.Utils;
+using DG.Tweening;
+using UnityEngine;
+
+namespace _Project.Code.Lobby.States
+{
+    public class SettingState : IState
+    {
+        private readonly SettingStateView _stateView;
+        private readonly LobbyCameraRotation _config;
+        private readonly Camera _camera;
+
+        public SettingState(ConfigProvider configProvider
+        , SettingStateView stateView)
+        {
+            _config = configProvider.GetSingleImmediately<LobbyCameraRotation>(AssetPath.Config.SettingsCameraRotation);
+            _stateView = stateView;
+            _camera = Camera.main;
+        }
+        
+        public void Enter()
+        {
+            _stateView.Open();
+            _camera.transform.DORotate(_config.Rotation, _config.Duration)
+                .SetEase(_config.Ease).SetLink(_camera.gameObject);
+        }
+
+        public void Exit()
+        {
+            _stateView.Close();
+        }
+    }
+}

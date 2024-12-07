@@ -60,7 +60,6 @@ namespace _Project.Code.UI.View
             _openButton.Show();
         }
 
-
         private void Purchased(TowerConfig config)
         {
             Close();

@@ -1,6 +1,6 @@
 ﻿using System;
 using _Project.Code.Config;
-using _Project.Code.Services.TowerPlacement;
+using _Project.Code.Services.Tower;
 using _Project.Code.Services.Wallet;
 using _Project.Code.UI.View;
 using VContainer;
@@ -21,8 +21,6 @@ namespace _Project.Code.Presenter
 
         private void Buy(TowerConfig config)
         {
-            var value = _walletService.MenuCoins.Value;
-            
             if (_walletService.GameplayCoins.Value >= config.Price) 
                 _placementService.StartPlacement(config);
         }

@@ -7,7 +7,7 @@ using _Project.Code.Gameplay.Spawner;
 using _Project.Code.Gameplay.States;
 using _Project.Code.Gameplay.Unit;
 using _Project.Code.Presenter;
-using _Project.Code.Services.TowerPlacement;
+using _Project.Code.Services.Tower;
 using _Project.Code.Services.Wallet;
 using _Project.Code.UI.Label;
 using _Project.Code.Utils;
@@ -27,7 +27,6 @@ namespace _Project.Code.Core.Bootstrapper
 
         [Inject] private readonly PlayerHealth _playerHealth;
         [Inject] private readonly GameplayStateMachine _fsm;
-        [Inject] private readonly TowerPlacementService _placementService;
         [Inject] private readonly TowerShopPresenter _towerShopPresenter;
 
         [Inject] private readonly WaveLabel _waveLabel;
@@ -51,7 +50,6 @@ namespace _Project.Code.Core.Bootstrapper
 
             _enemySpawner.Initialize(levelConfig.Waves);
             _waveLabel.Initialize(_enemySpawner, levelConfig.Waves.Length);
-            _placementService.Initialize(levelConfig.PlacementLayer);
             _towerShopPresenter.Initialize();
 
             _playerHealth.Points.Subscribe(_healthLabel.SetAmount).AddTo(_cd);

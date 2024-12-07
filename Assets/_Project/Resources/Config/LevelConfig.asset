@@ -15,7 +15,7 @@ MonoBehaviour:
   <InitialMoneyCount>k__BackingField: 600
   <VictoryRewardPerHealth>k__BackingField: 100
   <MaxPlayerHealth>k__BackingField: 2
-  <FirstSpawnDelay>k__BackingField: 3
+  <FirstSpawnDelay>k__BackingField: 2
   <PlacementLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 128

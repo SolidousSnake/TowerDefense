@@ -2,7 +2,6 @@
 using _Project.Code.Gameplay.Repository;
 using _Project.Code.Gameplay.Unit.Rotator;
 using _Project.Code.Gameplay.Weapon;
-using _Project.Code.Utils;
 using Alchemy.Inspector;
 using UnityEngine;
 
@@ -13,23 +12,27 @@ namespace _Project.Code.Gameplay.Tower
         [SerializeField] private Transform _rotationPart;
         [SerializeField] private WeaponFacade _weaponFacade;
 
-        private readonly Collider[] _targets = new Collider[Constants.DefaultCapacity];
         private bool _initialized = false;
         private TowerConfig _config;
-
         private TowerRotator _rotator;
         private TargetSelector _targetSelector;
 
         [SerializeField] [ReadOnly] private Transform _currentTarget;
 
-        public void Initialize(TowerConfig config, EnemyRepository enemyRepository)
+        public string Name => _config.Name;
+        public int UpgradeCost => _config.Price;
+        public int SellReward => _config.Price / 2;
+
+        public Vector2Int GridPosition { get; private set; }
+        
+        public void Initialize(TowerConfig config, EnemyRepository enemyRepository, Vector2Int gridPosition)
         {
+            GridPosition = gridPosition;
             _config = config;
             _rotator = new TowerRotator(transform, _rotationPart);
             _targetSelector = new TargetSelector(enemyRepository, transform);
 
             _weaponFacade.Initialize(config);
-
             _targetSelector.SetRange(config.Range);
             _initialized = true;
         }
@@ -50,6 +53,11 @@ namespace _Project.Code.Gameplay.Tower
             _currentTarget = enemy.transform;
             _rotator.Rotate(_currentTarget.position);
             _weaponFacade.Fire();
+        }
+
+        private void OnMouseDown()
+        {
+            
         }
 
         private void OnDrawGizmosSelected()

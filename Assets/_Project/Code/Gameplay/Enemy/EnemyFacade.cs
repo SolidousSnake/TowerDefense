@@ -10,6 +10,7 @@ using Cysharp.Threading.Tasks;
 using _Project.Code.Utils;
 using UnityEngine;
 using UniRx;
+using VContainer;
 
 namespace _Project.Code.Gameplay.Enemy
 {
@@ -20,11 +21,11 @@ namespace _Project.Code.Gameplay.Enemy
         [SerializeField] private float _deathTime;
         [SerializeField] private float _rotationSpeed;
 
-        private EnemyRepository _repository;
+        [Inject] private EnemyRepository _repository;
+        [Inject] private PlayerHealth _playerHealth;
 
         private WayPointMovement _wayPointMovement;
         private EnemyRotator _enemyRotator;
-        private PlayerHealth _playerHealth;
 
         public Health Health { get; private set; }
 
@@ -35,11 +36,11 @@ namespace _Project.Code.Gameplay.Enemy
             , PlayerHealth playerHealth
             , EnemyRepository repository)
         {
-            _repository = repository;
+            // _repository = repository;
             _originalPrefab.Show();
             _destroyedPrefab.Hide();
 
-            _playerHealth = playerHealth;
+            // _playerHealth = playerHealth;
 
             Health = new Health(config.MaxHealth);
             _enemyRotator = new EnemyRotator(transform, _rotationSpeed);

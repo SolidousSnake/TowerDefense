@@ -1,66 +1,40 @@
-﻿using _Project.Code.Services.SaveLoad;
-using _Project.Code.Utils;
+﻿using _Project.Code.Utils;
+using UniRx;
 using UnityEngine;
 using UnityEngine.Audio;
+using VContainer;
 
 namespace _Project.Code.Services.Sound
 {
     public class SoundService
     {
-        private readonly AudioMixerGroup _audioMixerGroup;
-        private readonly ISaveLoadService _saveLoadService;
-
-        public SoundService(AudioMixerGroup audioMixerGroup, ISaveLoadService saveLoadService)
-        {
-            _audioMixerGroup = audioMixerGroup;
-            _saveLoadService = saveLoadService;
-        }
+        [Inject] private readonly AudioMixerGroup _audioMixerGroup;
         
-        public void SetMusicVolume(float volume)
-        {
-            Debug.Log("A");
-            if (volume == 0)
-                volume = Constants.Audio.MinSliderValue;
-            Debug.Log("B");
+        private readonly ReactiveProperty<float> _musicVolume = new();
+        private readonly ReactiveProperty<float> _sfxVolume = new();
+        private readonly CompositeDisposable _cd = new();
 
-            _audioMixerGroup.audioMixer
-                .SetFloat(Constants.Audio.Music, Mathf.Log10(volume) * Constants.Audio.MaxValue);
-            Save();
+        public IReadOnlyReactiveProperty<float> MusicVolume => _musicVolume;
+        public IReadOnlyReactiveProperty<float> SfxVolume => _sfxVolume;
+
+        public void Initialize(float initialMusicVolume, float initialSfxVolume)
+        {
+            _musicVolume.Value = Mathf.Clamp(initialMusicVolume, Constants.Audio.MinSliderValue,
+                Constants.Audio.MaxSliderValue);
+            _sfxVolume.Value = Mathf.Clamp(initialSfxVolume, Constants.Audio.MinSliderValue,
+                Constants.Audio.MaxSliderValue);
+
+            _musicVolume.Subscribe(volume =>
+                _audioMixerGroup.audioMixer.SetFloat(Constants.Audio.Music,
+                    Mathf.Log10(volume) * Constants.Audio.MaxValue));
         }
 
-        public void SetSfxVolume(float volume)
-        {
-            if (volume == 0)
-                volume = Constants.Audio.MinSliderValue;
+        public void SetMusicVolume(float volume) =>
+            _musicVolume.Value = Mathf.Clamp(volume, Constants.Audio.MinSliderValue, Constants.Audio.MaxSliderValue);
 
-            _audioMixerGroup.audioMixer
-                .SetFloat(Constants.Audio.SFX, Mathf.Log10(volume) * Constants.Audio.MaxValue);
-            Save();
-        }
+        public void SetSfxVolume(float volume) =>
+            _sfxVolume.Value = Mathf.Clamp(volume, Constants.Audio.MinSliderValue, Constants.Audio.MaxSliderValue);
 
-        private void Save()
-        {
-            var progress = _saveLoadService.Load();
-            var musicValue = GetMusicValue();
-            Debug.Log(musicValue);
-            _audioMixerGroup.audioMixer.GetFloat(Constants.Audio.SFX, out float sfxValue);
-            
-            if (float.IsNaN(musicValue))
-                musicValue =  Constants.Audio.MinSliderValue;
-    
-            if (float.IsNaN(sfxValue))
-                sfxValue =  Constants.Audio.MinSliderValue;
-            
-            progress.SoundData.MusicVolume = musicValue;
-            progress.SoundData.SfxVolume = sfxValue;
-
-            _saveLoadService.Save(progress);
-        }
-
-        public float GetMusicValue()
-        {
-            _audioMixerGroup.audioMixer.GetFloat(Constants.Audio.Music, out var musicValue);
-            return musicValue;
-        }
+        public void Dispose() => _cd.Dispose();
     }
 }

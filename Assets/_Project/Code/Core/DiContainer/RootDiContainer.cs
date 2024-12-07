@@ -1,4 +1,5 @@
 using _Project.Code.Core.AssetManagement;
+using _Project.Code.Core.Factory;
 using _Project.Code.Core.SceneManagement;
 using _Project.Code.Services.SaveLoad;
 using _Project.Code.Services.Settings;
@@ -22,7 +23,8 @@ namespace _Project.Code.Core.DiContainer
             builder.RegisterInstance(_audioMixerGroup);
             builder.AddSingleton<ISceneLoader, SceneLoader>();
             builder.AddSingleton<IAssetProvider, ResourcesAssetProvider>();
-
+            
+            builder.AddTransient<StateFactory>();
             builder.AddSingleton<ConfigProvider>();
         }
 

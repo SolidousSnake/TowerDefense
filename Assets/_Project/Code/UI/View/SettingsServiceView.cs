@@ -1,4 +1,6 @@
-﻿using _Project.Code.Services.Settings;
+﻿using System.Collections.Generic;
+using _Project.Code.Services.Settings;
+using TMPro;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,25 +10,38 @@ namespace _Project.Code.UI.View
 {
     public class SettingsServiceView : MonoBehaviour
     {
-        [SerializeField] private Button _fps30Button;
-        [SerializeField] private Button _fps60Button;    
+        [SerializeField] private Button _buttonPrefab;
+        [SerializeField] private Transform _buttonParent;
+        [SerializeField] private List<int> _fpsValues;
         [Inject] private SettingService _settingService;
+
+        private readonly List<Button> _createdButtons = new();
 
         private void Awake()
         {
-            _fps30Button.OnClickAsObservable()
-                .Subscribe(_ => _settingService.TargetFrameRate.Value = 30).AddTo(this);
-
-            _fps60Button.OnClickAsObservable()
-                .Subscribe(_ => _settingService.TargetFrameRate.Value = 60).AddTo(this);
+            CreateButtons();
 
             _settingService.TargetFrameRate.Subscribe(UpdateButtonStates).AddTo(this);
+            UpdateButtonStates(_settingService.TargetFrameRate.Value);
+        }
+
+        private void CreateButtons()
+        {
+            foreach (var fpsValue in _fpsValues)
+            {
+                var button = Instantiate(_buttonPrefab, _buttonParent);
+                button.GetComponentInChildren<TextMeshProUGUI>().text = $"{fpsValue}";
+                _createdButtons.Add(button);
+
+                button.OnClickAsObservable()
+                    .Subscribe(_ => _settingService.TargetFrameRate.Value = fpsValue).AddTo(this);
+            }
         }
 
         private void UpdateButtonStates(int frameRate)
         {
-            _fps30Button.interactable = frameRate != 30;
-            _fps60Button.interactable = frameRate != 60;
+            for (int i = 0; i < _createdButtons.Count; i++)
+                _createdButtons[i].interactable = _fpsValues[i] != frameRate;
         }
     }
 }
