@@ -49,3 +49,4 @@ MonoBehaviour:
   autoRun: 1
   autoInjectGameObjects: []
   _audioMixerGroup: {fileID: 24300002, guid: 8e8da91223a078347bf23be4d606dd2e, type: 2}
+  _loadingCurtain: {fileID: 3741189658811471023, guid: dcbf0f14f42c8ea4d82de3b2f1afec31, type: 3}

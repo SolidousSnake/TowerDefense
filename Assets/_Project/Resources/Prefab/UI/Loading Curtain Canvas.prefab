@@ -145,7 +145,6 @@ GameObject:
   - component: {fileID: 6713913628291535512}
   - component: {fileID: 5778742191713442671}
   - component: {fileID: 4059983933641444384}
-  - component: {fileID: 4554614701780727386}
   m_Layer: 5
   m_Name: Loading Curtain
   m_TagString: Untagged
@@ -213,21 +212,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4554614701780727386
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6336772492078260640}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9320073d13eb446b8f39476fd6f0ae55, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _curtainCanvasGroup: {fileID: 4372047889665126124}
-  _progressBar: {fileID: 1635668707003470347}
-  _percentLabel: {fileID: 1869443339893785124}
 --- !u!1 &6530362499101490214
 GameObject:
   m_ObjectHideFlags: 0
@@ -316,6 +300,7 @@ GameObject:
   - component: {fileID: 787249785421179654}
   - component: {fileID: 503738309412939555}
   - component: {fileID: 4372047889665126124}
+  - component: {fileID: 3741189658811471023}
   m_Layer: 5
   m_Name: Loading Curtain Canvas
   m_TagString: Untagged
@@ -418,6 +403,21 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &3741189658811471023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8193445426154675860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9320073d13eb446b8f39476fd6f0ae55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _curtainCanvasGroup: {fileID: 4372047889665126124}
+  _progressBar: {fileID: 1635668707003470347}
+  _percentLabel: {fileID: 1869443339893785124}
 --- !u!1 &9093962875369423208
 GameObject:
   m_ObjectHideFlags: 0

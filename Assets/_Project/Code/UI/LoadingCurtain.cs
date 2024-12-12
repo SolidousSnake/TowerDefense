@@ -16,9 +16,8 @@ namespace _Project.Code.UI
         
         private void Awake()
         {
-            _curtainCanvasGroup.alpha = 0;
-            _curtainCanvasGroup.blocksRaycasts = false;
-            _progressBar.fillAmount = 0;
+            Hide();
+            SetProgress(0);
 
             _sceneLoader.OnLoadingStarted += Show;
             _sceneLoader.OnLoadingProgress += SetProgress;
