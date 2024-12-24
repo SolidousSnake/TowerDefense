@@ -40,7 +40,6 @@ namespace _Project.Code.Gameplay.States
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-            Debug.Log("2");
         }
 
         public void Exit()

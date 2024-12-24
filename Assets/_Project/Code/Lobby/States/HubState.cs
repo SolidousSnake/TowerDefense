@@ -1,9 +1,11 @@
 ﻿using _Project.Code.Config;
 using _Project.Code.Core.AssetManagement;
 using _Project.Code.Core.Fsm;
+using _Project.Code.UI;
 using _Project.Code.Utils;
 using DG.Tweening;
 using UnityEngine;
+using VContainer;
 
 namespace _Project.Code.Lobby.States
 {

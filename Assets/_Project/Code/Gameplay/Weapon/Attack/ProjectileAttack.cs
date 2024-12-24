@@ -16,5 +16,10 @@
         {
             throw new System.NotImplementedException();
         }
+
+        public void SetPenetrationDepth(int value)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using _Project.Code.Config;
 using _Project.Code.Gameplay.Point;
 using _Project.Code.Gameplay.Repository;
 using _Project.Code.Gameplay.Unit;
 using _Project.Code.Gameplay.Unit.Movement;
 using _Project.Code.Gameplay.Unit.Rotator;
+using _Project.Code.UI.Bar;
 using Cysharp.Threading.Tasks;
 using _Project.Code.Utils;
 using UnityEngine;
@@ -16,6 +16,8 @@ namespace _Project.Code.Gameplay.Enemy
 {
     public class EnemyFacade : MonoBehaviour
     {
+        [SerializeField] private EnemyHealthBar _healthBar;
+        [SerializeField] private Transform _rotationPart;
         [SerializeField] private GameObject _originalPrefab;
         [SerializeField] private GameObject _destroyedPrefab;
         [SerializeField] private float _deathTime;
@@ -32,20 +34,16 @@ namespace _Project.Code.Gameplay.Enemy
         public bool IsAlive => Health.Points.Value > 0;
 
         public void Initialize(EnemyConfig config
-            , IReadOnlyList<WayPoint> wayPoints
-            , PlayerHealth playerHealth
-            , EnemyRepository repository)
+            , IReadOnlyList<WayPoint> wayPoints)
         {
-            // _repository = repository;
             _originalPrefab.Show();
             _destroyedPrefab.Hide();
 
-            // _playerHealth = playerHealth;
-
             Health = new Health(config.MaxHealth);
-            _enemyRotator = new EnemyRotator(transform, _rotationSpeed);
+            _enemyRotator = new EnemyRotator(_rotationPart, _rotationSpeed);
             _wayPointMovement = new WayPointMovement(transform, wayPoints);
 
+            _healthBar.Initialize(Health);
             _wayPointMovement.SetSpeed(config.MovementSpeed);
 
             _repository.Add(this);

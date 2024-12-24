@@ -10,6 +10,7 @@ using _Project.Code.Utils;
 using UnityEngine;
 using UnityEngine.Audio;
 using VContainer;
+using VContainer.Unity;
 
 namespace _Project.Code.Core.DiContainer
 {
@@ -23,7 +24,8 @@ namespace _Project.Code.Core.DiContainer
             BindServices(builder);
 
             builder.RegisterInstance(_audioMixerGroup);
-            builder.RegisterInstance(_loadingCurtain);
+            builder.RegisterBuildCallback(container =>
+                DontDestroyOnLoad(container.Instantiate(_loadingCurtain)));
             
             builder.AddSingleton<ISceneLoader, SceneLoader>();
             builder.AddSingleton<IAssetProvider, ResourcesAssetProvider>();

@@ -1,4 +1,5 @@
-﻿using _Project.Code.Config;
+﻿using System;
+using _Project.Code.Config;
 using _Project.Code.Gameplay.Repository;
 using _Project.Code.Gameplay.Unit.Rotator;
 using _Project.Code.Gameplay.Weapon;
@@ -11,7 +12,7 @@ namespace _Project.Code.Gameplay.Tower
     {
         [SerializeField] private Transform _rotationPart;
         [SerializeField] private WeaponFacade _weaponFacade;
-
+        
         private bool _initialized = false;
         private TowerConfig _config;
         private TowerRotator _rotator;
@@ -19,6 +20,9 @@ namespace _Project.Code.Gameplay.Tower
 
         [SerializeField] [ReadOnly] private Transform _currentTarget;
 
+        public event Action EnemySighted; 
+        public event Action EnemyLost; 
+        
         public string Name => _config.Name;
         public int UpgradeCost => _config.Price;
         public int SellReward => _config.Price / 2;
@@ -47,17 +51,14 @@ namespace _Project.Code.Gameplay.Tower
             if (enemy is null)
             {
                 _weaponFacade.StopFire();
+                EnemyLost?.Invoke();
                 return;
             }
 
             _currentTarget = enemy.transform;
             _rotator.Rotate(_currentTarget.position);
             _weaponFacade.Fire();
-        }
-
-        private void OnMouseDown()
-        {
-            
+            EnemySighted?.Invoke();
         }
 
         private void OnDrawGizmosSelected()

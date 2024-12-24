@@ -1,5 +1,6 @@
 ﻿using System;
 using _Project.Code.Gameplay.Enemy;
+using _Project.Code.Utils;
 using UnityEngine;
 
 namespace _Project.Code.Gameplay.Weapon.Attack
@@ -8,24 +9,43 @@ namespace _Project.Code.Gameplay.Weapon.Attack
     {
         private readonly Transform _shootPoint;
         private readonly LayerMask _enemyLayer;
-
+        private readonly RaycastHit[] _hitBuffer = new RaycastHit[Constants.DefaultCapacity];
+        
         private float _damage;
         private float _range;
+        private int _penetrationDepth;
 
         public RayAttack(Transform shootPoint, LayerMask enemyLayer)
         {
             _shootPoint = shootPoint;
             _enemyLayer = enemyLayer;
         }
-
+        
         public void Attack()
         {
             var ray = new Ray(_shootPoint.position, _shootPoint.forward);
-            if (Physics.Raycast(ray, out RaycastHit hitInfo, _range, _enemyLayer))
-                if (hitInfo.collider.TryGetComponent(out EnemyFacade enemy))
-                    enemy.Health.ApplyDamage(_damage);
-        }
+            int hitCount = Physics.RaycastNonAlloc(ray, _hitBuffer, _range, _enemyLayer);
 
+            if (hitCount == 0)
+                return;
+
+            int enemiesHit = 0;
+
+            for (int i = 0; i < hitCount; i++)
+            {
+                var hit = _hitBuffer[i];
+
+                if (hit.collider.TryGetComponent(out EnemyFacade enemy))
+                {
+                    enemy.Health.ApplyDamage(_damage);
+                    enemiesHit++;
+
+                    if (enemiesHit >= _penetrationDepth)
+                        break;
+                }
+            }
+        }
+        
         public void SetDamage(float damage)
         {
             if (damage < 0)
@@ -38,6 +58,13 @@ namespace _Project.Code.Gameplay.Weapon.Attack
             if (range < 0)
                 throw new Exception($"Range must be positive. Received: {range}");
             _range = range;
+        }
+
+        public void SetPenetrationDepth(int value)
+        {
+            if (value < 1)
+                throw new Exception($"Penetration must be positive. Received: {value}");
+            _penetrationDepth = value;
         }
     }
 }

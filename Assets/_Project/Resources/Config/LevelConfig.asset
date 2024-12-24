@@ -15,12 +15,14 @@ MonoBehaviour:
   <InitialMoneyCount>k__BackingField: 600
   <VictoryRewardPerHealth>k__BackingField: 100
   <MaxPlayerHealth>k__BackingField: 2
-  <FirstSpawnDelay>k__BackingField: 2
+  <FirstSpawnDelay>k__BackingField: 5
   <PlacementLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 128
   <TowersList>k__BackingField:
-  - {fileID: 11400000, guid: cfaeb3f4a0959e44787f71b29b967ecc, type: 2}
+  - {fileID: 11400000, guid: 9d4ca6278a02c3347b87e387e5eec76a, type: 2}
+  - {fileID: 11400000, guid: d411731368f0920428c0f2f092fe241f, type: 2}
+  - {fileID: 11400000, guid: f8e79043f752b07428088717bfa91a53, type: 2}
   - {fileID: 11400000, guid: b53ed24af33d97349877694c5a05cc48, type: 2}
   <Waves>k__BackingField:
   - <Enemy>k__BackingField: {fileID: 11400000, guid: da094ced5311b8e46bb6fe3cf5c9bf05, type: 2}

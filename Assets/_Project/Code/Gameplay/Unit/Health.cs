@@ -6,15 +6,15 @@ namespace _Project.Code.Gameplay.Unit
     public class Health
     {
         private readonly ReactiveProperty<float> _points;
-        private float _maxHealth;
         
         public Health(float hp = 0)
         {
-            _maxHealth = hp;
+            MaxHealth = hp;
             _points = new ReactiveProperty<float>(hp);
             Points = _points.ToReadOnlyReactiveProperty();
         }
-
+        public float MaxHealth { get; private set; }
+        
         public IReadOnlyReactiveProperty<float> Points { get; }
 
         public void ApplyDamage(float damage)
@@ -30,12 +30,12 @@ namespace _Project.Code.Gameplay.Unit
             if (health < 0)
                 throw new Exception($"Health must be positive. Received: {health}");
           
-            _points.Value = Math.Min(_points.Value + health, _maxHealth);
+            _points.Value = Math.Min(_points.Value + health, MaxHealth);
         }
 
         protected void SetMaxHealth(float value)
         {
-            _maxHealth = value;
+            MaxHealth = value;
             _points.Value = Math.Min(_points.Value, value);
         }
 

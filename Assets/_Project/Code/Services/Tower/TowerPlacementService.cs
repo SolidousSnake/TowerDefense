@@ -11,6 +11,7 @@ namespace _Project.Code.Services.Tower
 {
     public class TowerPlacementService : ITickable
     {
+        private readonly Camera _camera;
         private readonly WalletService _walletService;
         private readonly TowerOperationService _towerOperationService;
         private readonly EnemyRepository _enemyRepository;
@@ -35,6 +36,7 @@ namespace _Project.Code.Services.Tower
             _buildingRepository = buildingRepository;
             _view = view;
             _placementLayer = placementLayer;
+            _camera = Camera.main;
 
             _view.Initialize(this);
             _view.Close();
@@ -43,7 +45,8 @@ namespace _Project.Code.Services.Tower
         public void StartPlacement(TowerConfig config)
         {
             StopPlacement();
-
+            MovePreviewBuilding(Vector3.zero);
+            
             _currentConfig = config;
             _previewBuilding = Object.Instantiate(config.Prefab);
             _view.Open();
@@ -72,15 +75,15 @@ namespace _Project.Code.Services.Tower
         public void Tick()
         {
             var mousePosition = Input.mousePosition;
-            UpdatePreviewBuildingPosition(mousePosition);
+            MovePreviewBuilding(mousePosition);
             HandlePlacementInput(mousePosition);
         }
-
-        private void UpdatePreviewBuildingPosition(Vector3 mousePosition)
+        
+        private void MovePreviewBuilding(Vector3 mousePosition)
         {
             if (_previewBuilding is null)
                 return;
-
+        
             if (TryGetGridPosition(mousePosition, out var gridPosition))
             {
                 bool canPlace = _buildingRepository.IsPositionFree(_previewBuilding, gridPosition);
@@ -96,23 +99,24 @@ namespace _Project.Code.Services.Tower
 
             if (!Input.GetMouseButtonDown(0) || !TryGetGridPosition(mousePosition, out var gridPosition))
                 return;
+
             _buildingRepository.TryGetBuilding(gridPosition, out var building);
- 
-            if(building is null)
+
+            if (building is null)
                 return;
             _towerOperationService.Show(building);
         }
-
+        
         private bool TryPlaceBuilding(out Vector2Int gridPosition)
         {
             gridPosition = default;
-
+        
             if (_previewBuilding is null)
                 return false;
-
+        
             var position = _previewBuilding.transform.position;
             gridPosition = new Vector2Int(Mathf.RoundToInt(position.x), Mathf.RoundToInt(position.z));
-
+        
             return _buildingRepository.IsPositionFree(_previewBuilding, gridPosition);
         }
 
@@ -130,7 +134,7 @@ namespace _Project.Code.Services.Tower
         {
             gridPosition = default;
 
-            var ray = Camera.main.ScreenPointToRay(mousePosition);
+            var ray = _camera.ScreenPointToRay(mousePosition);
             if (Physics.Raycast(ray, out var hit, Mathf.Infinity, _placementLayer))
             {
                 var worldPosition = hit.point;

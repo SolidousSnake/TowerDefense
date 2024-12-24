@@ -27,7 +27,7 @@ namespace _Project.Code.UI.View
             _service = service;
             _upgradeButton.OnClickAsObservable().Subscribe(_ => Upgrade()).AddTo(this);
             _removeButton.OnClickAsObservable().Subscribe(_ => Remove()).AddTo(this);
-            _cancelButton.OnClickAsObservable().Subscribe(_ => this.Hide()).AddTo(this);
+            _cancelButton.OnClickAsObservable().Subscribe(_ => Close()).AddTo(this);
         }
 
         public void Show(TowerFacade tower)

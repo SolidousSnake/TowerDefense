@@ -58,6 +58,7 @@ namespace _Project.Code.Gameplay.Weapon
                 _ => throw new System.ArgumentException("Invalid Attack type")
             };
 
+            _weaponAttack.SetPenetrationDepth(config.Penetration);
             _weaponAttack.SetDamage(config.Damage);
             _weaponAttack.SetRange(config.Range);
         }

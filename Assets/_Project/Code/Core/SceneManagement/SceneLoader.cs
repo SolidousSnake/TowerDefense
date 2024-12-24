@@ -22,10 +22,11 @@ namespace _Project.Code.Core.SceneManagement
             {
                 float progress = Mathf.Clamp01(loadOperation.progress / 0.9f);
                 OnLoadingProgress?.Invoke(progress);
+                
                 if (loadOperation.progress >= 0.9f)
                     loadOperation.allowSceneActivation = true;
 
-                await UniTask.Yield(PlayerLoopTiming.Update);
+                await UniTask.Yield();
             }
 
             OnLoadingCompleted?.Invoke();

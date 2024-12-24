@@ -11,7 +11,7 @@ using _Project.Code.UI.Label;
 using _Project.Code.UI.View;
 using _Project.Code.UI.View.State.Gameplay;
 using _Project.Code.Utils;
-using Alchemy.Inspector;
+using NaughtyAttributes;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -20,6 +20,8 @@ namespace _Project.Code.Core.DiContainer
 {
     public sealed class GameplaySceneDiContainer : DiContainerBase
     {
+        [Space(25f)]
+
         [BoxGroup("Points")] [SerializeField] private SpawnPoint _spawnPoint;
         [BoxGroup("Points")] [SerializeField] private WayPoint[] _wayPoints;
 
