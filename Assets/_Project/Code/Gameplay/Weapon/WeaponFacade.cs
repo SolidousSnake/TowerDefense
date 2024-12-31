@@ -1,4 +1,4 @@
-﻿using _Project.Code.Config;
+﻿using _Project.Code.Data.Config;
 using _Project.Code.Gameplay.Sfx.Weapon;
 using _Project.Code.Gameplay.Weapon.Attack;
 using _Project.Code.Gameplay.Weapon.FireMode;

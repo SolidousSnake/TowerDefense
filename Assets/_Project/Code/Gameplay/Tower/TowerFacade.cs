@@ -1,9 +1,9 @@
 ﻿using System;
-using _Project.Code.Config;
+using _Project.Code.Data.Config;
 using _Project.Code.Gameplay.Repository;
 using _Project.Code.Gameplay.Unit.Rotator;
 using _Project.Code.Gameplay.Weapon;
-using Alchemy.Inspector;
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace _Project.Code.Gameplay.Tower

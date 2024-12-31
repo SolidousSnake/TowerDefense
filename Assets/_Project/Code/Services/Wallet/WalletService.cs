@@ -29,7 +29,7 @@ namespace _Project.Code.Services.Wallet
         
         public void AddGameplayCoins(int amount)
         {
-            if (amount <= 0)
+            if (amount < 0)
                 throw new ArgumentException($"Amount should be positive. Received: {amount}");
             _gameplayCoins.Value += amount;
         }
@@ -38,7 +38,7 @@ namespace _Project.Code.Services.Wallet
         
         public void AddMenuCoins(int amount)
         {
-            if (amount <= 0)
+            if (amount < 0)
                 throw new ArgumentException($"Amount should be positive. Received: {amount}");
             _menuCoins.Value += amount;
         }

@@ -12,7 +12,12 @@ namespace _Project.Code.Core.AssetManagement
         
         public void LoadSingle<T>(string path) where T : Object => _singleConfigs[typeof(T)] = _assetProvider.Load<T>(path);
         
+        public T[] LoadMany<T>(string path) where T : Object => _assetProvider.LoadMany<T>(path);
+        
+        public void Release<T>() where T : Object => _singleConfigs.Remove(typeof(T));
+
         public T GetSingle<T>() where T : Object => _singleConfigs[typeof(T)] as T;
+        
         public T GetSingleImmediately<T>(string path) where T : Object => _assetProvider.Load<T>(path);
     }
 }

@@ -1,4 +1,4 @@
-﻿using _Project.Code.Config;
+﻿using _Project.Code.Data.Config;
 using _Project.Code.Gameplay.Repository;
 using _Project.Code.Gameplay.Tower;
 using _Project.Code.Services.Wallet;

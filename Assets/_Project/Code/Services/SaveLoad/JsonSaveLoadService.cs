@@ -2,7 +2,6 @@
 using _Project.Code.Data.PersistentProgress;
 using _Project.Code.Utils;
 using Newtonsoft.Json;
-using UnityEngine;
 using Application = UnityEngine.Device.Application;
 
 

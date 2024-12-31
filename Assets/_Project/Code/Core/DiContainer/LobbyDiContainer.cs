@@ -1,8 +1,9 @@
 ﻿using _Project.Code.Core.Bootstrapper;
 using _Project.Code.Core.Fsm;
+using _Project.Code.Services.MenuShop;
 using _Project.Code.UI.View.State.Lobby;
 using _Project.Code.Utils;
-using Alchemy.Inspector;
+using NaughtyAttributes;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -23,6 +24,7 @@ namespace _Project.Code.Core.DiContainer
             builder.RegisterInstance(_settingStateView);
             builder.RegisterInstance(_selectLevelStateView);
            
+            builder.AddSingleton<MenuShopService>();
             builder.AddSingleton<LobbyStateMachine>();
             builder.RegisterEntryPoint<LobbyBootstrapper>();
         }

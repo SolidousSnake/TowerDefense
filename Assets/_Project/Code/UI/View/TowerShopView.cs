@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
 using _Project.Code.Core.AssetManagement;
-using _Project.Code.Config;
+using _Project.Code.Data.Config;
 using _Project.Code.Presenter;
 using _Project.Code.Services.Wallet;
 using _Project.Code.Utils;
-using Alchemy.Inspector;
 using UnityEngine;
 using VContainer;
 using UniRx;
@@ -15,7 +14,7 @@ namespace _Project.Code.UI.View
 {
     public class TowerShopView : MoveableUI
     {
-        [Title("Common")]
+        [Header("Common")]
         [SerializeField] private Button _openButton;
         [SerializeField] private Button _closeButton;
         [SerializeField] private Transform _parentContent;
@@ -36,7 +35,7 @@ namespace _Project.Code.UI.View
             _closeButton.OnClickAsObservable().Subscribe(_ => presenter.Hide()).AddTo(_cd);
 
             var shopItem = _assetProvider.Load<TowerShopItem>(AssetPath.Prefab.TowerShopItem);
-            var shopColor = _configProvider.GetSingle<TowerShopColors>();
+            var shopColor = _configProvider.GetSingle<ShopColors>();
 
             foreach (var config in _configProvider.GetSingle<LevelConfig>().TowersList)
             {

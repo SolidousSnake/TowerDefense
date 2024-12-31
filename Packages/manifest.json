@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "com.annulusgames.alchemy": "https://github.com/AnnulusGames/Alchemy.git?path=/Alchemy/Assets/Alchemy",
     "com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
     "com.unity.animation.rigging": "1.2.1",
     "com.unity.collab-proxy": "2.5.2",

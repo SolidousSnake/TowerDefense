@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
-using _Project.Code.Config;
 using _Project.Code.Core.Fsm;
+using _Project.Code.Data.Config;
 using _Project.Code.Gameplay.Point;
 using _Project.Code.Gameplay.States;
 using _Project.Code.Services.Wallet;

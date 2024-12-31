@@ -15,11 +15,19 @@ MonoBehaviour:
   <SfxConfig>k__BackingField: {fileID: 11400000, guid: 0b9fed920a4940e4198b044a92ce1724, type: 2}
   <Name>k__BackingField: Assault
   <Price>k__BackingField: 50
-  <TowerIcon>k__BackingField: {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
+  <TowerIcon>k__BackingField: {fileID: 21300000, guid: fa998876d58b34c4d8b55e2b2ec28aca, type: 3}
+  <WeaponStats>k__BackingField:
+    <Damage>k__BackingField:
+    - 0.7
+    <Range>k__BackingField:
+    - 25
+    <FireRate>k__BackingField:
+    - 0.1
+    <Penetration>k__BackingField: 01000000
   <Damage>k__BackingField: 0.7
-  <Penetration>k__BackingField: 1
   <Range>k__BackingField: 25
   <FireRate>k__BackingField: 0.1
+  <Penetration>k__BackingField: 1
   <AttackType>k__BackingField: 0
   <FireModeType>k__BackingField: 0
   <EnemyLayer>k__BackingField:

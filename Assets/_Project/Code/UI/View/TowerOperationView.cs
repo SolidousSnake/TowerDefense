@@ -4,14 +4,12 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UniRx;
-using _Project.Code.Utils;
-using Alchemy.Inspector;
 
 namespace _Project.Code.UI.View
 {
     public class TowerOperationView : MoveableUI
     {
-        [Title("Common")]
+        [Header("Common")]
         [SerializeField] private TextMeshProUGUI _towerNameLabel;
         [SerializeField] private TextMeshProUGUI _upgradeCostLabel;
         [SerializeField] private TextMeshProUGUI _sellRewardLabel;

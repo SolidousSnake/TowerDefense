@@ -7,6 +7,7 @@ using VContainer;
 
 namespace _Project.Code.UI.UIButton
 {
+    [RequireComponent(typeof(Button))]
     public class GameStateSwitchButton : MonoBehaviour
     {
         private enum TargetStates

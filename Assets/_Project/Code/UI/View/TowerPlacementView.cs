@@ -1,5 +1,4 @@
 ﻿using _Project.Code.Services.Tower;
-using Alchemy.Inspector;
 using UnityEngine;
 using UnityEngine.UI;
 using UniRx;
@@ -8,7 +7,7 @@ namespace _Project.Code.UI.View
 {
     public class TowerPlacementView : MoveableUI
     {
-        [Title("Common")]
+        [Header("Common")]
         [SerializeField] private Button _placeButton;
         [SerializeField] private Button _rotateButton;
         [SerializeField] private Button _cancelButton;

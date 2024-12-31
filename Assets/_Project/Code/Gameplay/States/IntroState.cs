@@ -1,7 +1,7 @@
-﻿using _Project.Code.Config;
-using _Project.Code.Core.AssetManagement;
+﻿using _Project.Code.Core.AssetManagement;
 using _Project.Code.Core.Fsm;
 using _Project.Code.Core.Timers;
+using _Project.Code.Data.Config;
 
 namespace _Project.Code.Gameplay.States
 {

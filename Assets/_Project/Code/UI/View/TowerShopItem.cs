@@ -1,5 +1,5 @@
 ﻿using System;
-using _Project.Code.Config;
+using _Project.Code.Data.Config;
 using _Project.Code.Services.Wallet;
 using TMPro;
 using UniRx;
@@ -18,19 +18,17 @@ namespace _Project.Code.UI.View
 
         public event Action<TowerConfig> PurchaseButtonPressed;
 
-        public void Initialize(TowerShopColors colors, TowerConfig config, WalletService walletService)
+        public void Initialize(ShopColors colors, TowerConfig config, WalletService walletService)
         {
             _towerIcon.sprite = config.TowerIcon;
             _towerNameLabel.text = config.Name;
             _priceLabel.text = config.Price + _priceFormat;
 
-            walletService.GameplayCoins.Subscribe(x => ChangeColor(colors, config, x))
-                .AddTo(this);
-            _purchaseButton.OnClickAsObservable().Subscribe(_ => PurchaseButtonPressed?.Invoke(config))
-                .AddTo(this);
+            walletService.GameplayCoins.Subscribe(x => ChangeColor(colors, config, x)).AddTo(this);
+            _purchaseButton.OnClickAsObservable().Subscribe(_ => PurchaseButtonPressed?.Invoke(config)).AddTo(this);
         }
 
-        private void ChangeColor(TowerShopColors colors, TowerConfig config, int coins) => 
+        private void ChangeColor(ShopColors colors, TowerConfig config, int coins) => 
             _priceLabel.color = coins >= config.Price ? colors.AffordablePrice : colors.UnaffordablePrice;
     }
 }

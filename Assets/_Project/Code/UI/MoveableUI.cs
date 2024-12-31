@@ -1,12 +1,11 @@
-﻿using Alchemy.Inspector;
-using DG.Tweening;
+﻿using DG.Tweening;
 using UnityEngine;
 
 namespace _Project.Code.UI
 {
     public abstract class MoveableUI : MonoBehaviour
     {
-        [Title("Animation")]
+        [Header("Animation")]
         [SerializeField] private RectTransform _panel;
         [SerializeField] private Vector3 _visiblePosition;
         [SerializeField] private Vector3 _hiddenPosition;

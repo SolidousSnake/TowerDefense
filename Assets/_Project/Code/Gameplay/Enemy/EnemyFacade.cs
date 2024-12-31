@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
-using _Project.Code.Config;
+using _Project.Code.Data.Config;
 using _Project.Code.Gameplay.Point;
 using _Project.Code.Gameplay.Repository;
 using _Project.Code.Gameplay.Unit;
 using _Project.Code.Gameplay.Unit.Movement;
 using _Project.Code.Gameplay.Unit.Rotator;
-using _Project.Code.UI.Bar;
 using Cysharp.Threading.Tasks;
 using _Project.Code.Utils;
 using UnityEngine;
@@ -16,7 +15,6 @@ namespace _Project.Code.Gameplay.Enemy
 {
     public class EnemyFacade : MonoBehaviour
     {
-        [SerializeField] private EnemyHealthBar _healthBar;
         [SerializeField] private Transform _rotationPart;
         [SerializeField] private GameObject _originalPrefab;
         [SerializeField] private GameObject _destroyedPrefab;
@@ -43,7 +41,6 @@ namespace _Project.Code.Gameplay.Enemy
             _enemyRotator = new EnemyRotator(_rotationPart, _rotationSpeed);
             _wayPointMovement = new WayPointMovement(transform, wayPoints);
 
-            _healthBar.Initialize(Health);
             _wayPointMovement.SetSpeed(config.MovementSpeed);
 
             _repository.Add(this);

@@ -15,7 +15,7 @@ MonoBehaviour:
   <SfxConfig>k__BackingField: {fileID: 11400000, guid: 517797e1b436d714f938e2848ac07b7f, type: 2}
   <Name>k__BackingField: Sniper
   <Price>k__BackingField: 100
-  <TowerIcon>k__BackingField: {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
+  <TowerIcon>k__BackingField: {fileID: 21300000, guid: aad3745b4bfb8ac499171b0768d198ee, type: 3}
   <Damage>k__BackingField: 15
   <Penetration>k__BackingField: 15
   <Range>k__BackingField: 30

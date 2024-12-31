@@ -10,16 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a07ece7cd23a481fb9f73416e7e06049, type: 3}
-  m_Name: PickUp
+  m_Name: Pickup
   m_EditorClassIdentifier: 
   <SfxConfig>k__BackingField: {fileID: 11400000, guid: 0b9fed920a4940e4198b044a92ce1724, type: 2}
   <Name>k__BackingField: PickUp
   <Price>k__BackingField: 100
   <TowerIcon>k__BackingField: {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
+  <WeaponStats>k__BackingField:
+    <Damage>k__BackingField:
+    - 0.7
+    <Range>k__BackingField:
+    - 35
+    <FireRate>k__BackingField:
+    - 0.1
+    <Penetration>k__BackingField: 01000000
   <Damage>k__BackingField: 0.7
-  <Penetration>k__BackingField: 1
   <Range>k__BackingField: 35
   <FireRate>k__BackingField: 0.1
+  <Penetration>k__BackingField: 1
   <AttackType>k__BackingField: 0
   <FireModeType>k__BackingField: 0
   <EnemyLayer>k__BackingField:

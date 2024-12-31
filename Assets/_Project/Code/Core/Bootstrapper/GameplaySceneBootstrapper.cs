@@ -1,12 +1,14 @@
 ﻿using System;
-using _Project.Code.Config;
 using _Project.Code.Core.AssetManagement;
 using _Project.Code.Core.Factory;
 using _Project.Code.Core.Fsm;
+using _Project.Code.Data.Config;
 using _Project.Code.Gameplay.Spawner;
 using _Project.Code.Gameplay.States;
 using _Project.Code.Gameplay.Unit;
 using _Project.Code.Presenter;
+using _Project.Code.Services.SaveLoad;
+using _Project.Code.Services.Sound;
 using _Project.Code.Services.Tower;
 using _Project.Code.Services.Wallet;
 using _Project.Code.UI.Label;
@@ -23,6 +25,9 @@ namespace _Project.Code.Core.Bootstrapper
         [Inject] private readonly ConfigProvider _configProvider;
         [Inject] private readonly StateFactory _stateFactory;
         [Inject] private readonly WalletService _walletService;
+        [Inject] private readonly SoundService _soundService;
+        [Inject] private readonly ISaveLoadService _saveLoadService;
+
         [Inject] private readonly EnemySpawner _enemySpawner;
 
         [Inject] private readonly PlayerHealth _playerHealth;
@@ -44,6 +49,11 @@ namespace _Project.Code.Core.Bootstrapper
             WarmUpAssets();
             var levelConfig = _configProvider.GetSingle<LevelConfig>();
 
+            
+            var progress = _saveLoadService.Load();
+            var soundData = progress.SoundData;
+            _soundService.Initialize(soundData.MusicVolume, soundData.SfxVolume);
+            
             _walletService.ResetGameplayCoins();
             _walletService.AddGameplayCoins(levelConfig.InitialMoneyCount);
             _playerHealth.Initialize(levelConfig.MaxPlayerHealth);
@@ -64,7 +74,7 @@ namespace _Project.Code.Core.Bootstrapper
         private void WarmUpAssets()
         {
             _configProvider.LoadSingle<LevelConfig>(AssetPath.Config.LevelConfig);
-            _configProvider.LoadSingle<TowerShopColors>(AssetPath.Config.TowerShopColors);
+            _configProvider.LoadSingle<ShopColors>(AssetPath.Config.TowerShopColors);
         }
 
         private void CreateStates()
@@ -79,6 +89,11 @@ namespace _Project.Code.Core.Bootstrapper
             _fsm.RegisterState(_stateFactory.Create<LoadMenuState>());
         }
 
-        public void Dispose() => _cd.Dispose();
+        public void Dispose()
+        {
+            _configProvider.Release<LevelConfig>();
+            _configProvider.Release<ShopColors>();
+            _cd.Dispose();
+        }
     }
 }

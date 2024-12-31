@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using _Project.Code.Config;
+using _Project.Code.Data.Config;
 using UnityEngine;
 
 namespace _Project.Code.Gameplay.Sfx.Weapon

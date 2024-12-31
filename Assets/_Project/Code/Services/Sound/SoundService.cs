@@ -26,11 +26,14 @@ namespace _Project.Code.Services.Sound
 
             _musicVolume.Subscribe(volume =>
                 _audioMixerGroup.audioMixer.SetFloat(Constants.Audio.Music,
-                    Mathf.Log10(volume) * Constants.Audio.MaxValue));
+                    Mathf.Log10(volume) * Constants.Audio.MaxValue)).AddTo(_cd);
         }
 
-        public void SetMusicVolume(float volume) =>
+        public void SetMusicVolume(float volume)
+        {
             _musicVolume.Value = Mathf.Clamp(volume, Constants.Audio.MinSliderValue, Constants.Audio.MaxSliderValue);
+            _audioMixerGroup.audioMixer.SetFloat(Constants.Audio.Music, Mathf.Log10(volume) * Constants.Audio.MaxValue);
+        }
 
         public void SetSfxVolume(float volume) =>
             _sfxVolume.Value = Mathf.Clamp(volume, Constants.Audio.MinSliderValue, Constants.Audio.MaxSliderValue);
