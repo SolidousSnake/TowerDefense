@@ -40,7 +40,7 @@ namespace _Project.Code.UI.View.State.Lobby
             _saveLoadService.Save(progress);
         }
         
-        public void Initialize(MenuShopService shopService, Star starPrefab, MenuShopConfig config, int moneyAmount, ShopColors shopColors)
+        public void Initialize(MenuShopService shopService, Star starPrefab, MenuShopConfig config, ShopColors shopColors)
         {
             _shopService = shopService;
 

@@ -26,6 +26,7 @@ Material:
     m_TexEnvs: []
     m_Ints: []
     m_Floats:
+    - _ScaleRatioC: 0.3848684
     - _UnderlayDilate: 0.3
     - _UnderlaySoftness: 0.6
     m_Colors: []
