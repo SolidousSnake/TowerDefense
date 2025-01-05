@@ -5,6 +5,8 @@
         None,
         Damage,
         Range,
-        FireRate
+        FireRate,
+        Fulton,
+        Mine
     }
 }

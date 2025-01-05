@@ -19,9 +19,18 @@ namespace _Project.Code.Gameplay.States
         
         public async void Enter()
         {
-            int reward = (int)_playerHealth.Points.Value * _configProvider.GetSingle<LevelConfig>().VictoryRewardPerHealth;
+            var config = _configProvider.GetSingle<LevelConfig>();
+            int health = (int)_playerHealth.Points.Value;
+            
+            int bonusReward = health * config.RewardPerHealth;
+            int reward = bonusReward + config.VictoryReward;
+            
+            int stars = health <= config.HealthForOneStar ? 1 : (health <= config.HealthForTwoStars ? 2 : 3);
+
             _walletService.AddMenuCoins(reward);
-            _view.SetReward(reward);
+            _view.SetBonusReward(bonusReward);
+            _view.SetTotalReward(reward);
+            _view.ToggleStars(stars);
             
             var result = await _view.Open();
 

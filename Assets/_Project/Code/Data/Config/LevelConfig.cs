@@ -7,7 +7,10 @@ namespace _Project.Code.Data.Config
     public class LevelConfig : ScriptableObject
     {
         [field: SerializeField] public int InitialMoneyCount { get; private set; }
-        [field: SerializeField] public int VictoryRewardPerHealth { get; private set; }
+        [field: SerializeField] public int VictoryReward { get; private set; }
+        [field: SerializeField] public int RewardPerHealth { get; private set; }
+        [field: SerializeField] public int HealthForOneStar { get; private set; }
+        [field: SerializeField] public int HealthForTwoStars { get; private set; }
         [field: SerializeField] public int MaxPlayerHealth { get; private set; }
         [field: SerializeField] public float FirstSpawnDelay { get; private set; }
         [field: SerializeField] public LayerMask PlacementLayer { get; private set; }

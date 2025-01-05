@@ -349,7 +349,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 301c1a56ec9a472db60a779b26f22b5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _healthBar: {fileID: 3289444784634462719}
   _rotationPart: {fileID: 2088714912320415477}
   _originalPrefab: {fileID: 44679181026098822}
   _destroyedPrefab: {fileID: 5781340072201509976}

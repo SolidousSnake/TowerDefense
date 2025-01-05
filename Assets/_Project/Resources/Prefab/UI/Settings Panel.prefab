@@ -693,7 +693,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _buttonPrefab: {fileID: 3236113801582392103, guid: 0939b73bb087e37499d9dc0f827804bc, type: 3}
   _buttonParent: {fileID: 5657391731447249039}
-  _fpsValues: 1e0000003c0000005a00000078000000
+  _fpsValues: 1e0000003c0000005a000000
 --- !u!1 &3784412754608251904
 GameObject:
   m_ObjectHideFlags: 0

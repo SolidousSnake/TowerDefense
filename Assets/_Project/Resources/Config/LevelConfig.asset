@@ -13,8 +13,11 @@ MonoBehaviour:
   m_Name: LevelConfig
   m_EditorClassIdentifier: 
   <InitialMoneyCount>k__BackingField: 600
-  <VictoryRewardPerHealth>k__BackingField: 100
-  <MaxPlayerHealth>k__BackingField: 2
+  <VictoryReward>k__BackingField: 250
+  <RewardPerHealth>k__BackingField: 100
+  <HealthForOneStar>k__BackingField: 4
+  <HealthForTwoStars>k__BackingField: 9
+  <MaxPlayerHealth>k__BackingField: 10
   <FirstSpawnDelay>k__BackingField: 5
   <PlacementLayer>k__BackingField:
     serializedVersion: 2

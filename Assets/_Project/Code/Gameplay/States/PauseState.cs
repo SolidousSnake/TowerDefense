@@ -30,7 +30,6 @@ namespace _Project.Code.Gameplay.States
                     break;
                 case TargetStates.Restart:
                     _fsm.Enter<RestartState>();
-                    Debug.Log("ASD");
                     break;
                 case TargetStates.LoadMenu:
                     _fsm.Enter<LoadMenuState>();
